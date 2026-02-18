@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Control - User Activity Audit',
+    'name': 'Control - User Activity Audit (v19)',
     'version': '19.0.1.0.0',
     'category': 'Tools',
     'summary': 'Audit user activity, key business actions and usage statistics',
