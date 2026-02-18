@@ -24,7 +24,8 @@
                 <field name="user_id"/>
                 <field name="user_action_id"/>
                 <field name="action_date"/>
-                <group expand="0" string="Group By">
+                <separator string="Group By"/>
+                <group>
                     <filter name="group_field" string="Field" context="{'group_by': 'field_name'}"/>
                 </group>
             </search>

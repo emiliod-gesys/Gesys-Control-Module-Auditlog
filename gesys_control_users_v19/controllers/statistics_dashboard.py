@@ -12,7 +12,7 @@ from odoo.http import request, content_disposition
 
 
 class StatisticsDashboardController(http.Controller):
-    @http.route('/gesys_control/statistics_data', type='json', auth='user')
+    @http.route('/gesys_control/statistics_data', type='jsonrpc', auth='user')
     def statistics_data(self, period='day', date_anchor=None):
         env = request.env
         base_date = fields.Date.from_string(date_anchor) if date_anchor else fields.Date.context_today(env.user)

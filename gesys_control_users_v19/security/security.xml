@@ -8,17 +8,15 @@
             <field name="sequence">100</field>
         </record>
         
-        <!-- User Group -->
+        <!-- User Group (Odoo 19: category_id removed from res.groups) -->
         <record id="group_gesys_control_user" model="res.groups">
             <field name="name">User</field>
-            <field name="category_id" ref="module_category_gesys_control"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
         
         <!-- Administrator Group -->
         <record id="group_gesys_control_manager" model="res.groups">
             <field name="name">Administrator</field>
-            <field name="category_id" ref="module_category_gesys_control"/>
             <field name="implied_ids" eval="[(4, ref('group_gesys_control_user'))]"/>
         </record>
     </data>

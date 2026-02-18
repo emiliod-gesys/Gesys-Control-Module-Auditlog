@@ -290,8 +290,8 @@
         <field name="name">Manual de uso (Español)</field>
         <field name="model">gesys_control.config</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">gesys_control_users_v18.report_user_manual_es</field>
-        <field name="report_file">gesys_control_users_v18.report_user_manual_es</field>
+        <field name="report_name">gesys_control_users_v19.report_user_manual_es</field>
+        <field name="report_file">gesys_control_users_v19.report_user_manual_es</field>
         <field name="print_report_name">'Control_Manual_ES'</field>
     </record>
 
@@ -299,8 +299,8 @@
         <field name="name">User Manual (English)</field>
         <field name="model">gesys_control.config</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">gesys_control_users_v18.report_user_manual_en</field>
-        <field name="report_file">gesys_control_users_v18.report_user_manual_en</field>
+        <field name="report_name">gesys_control_users_v19.report_user_manual_en</field>
+        <field name="report_file">gesys_control_users_v19.report_user_manual_en</field>
         <field name="print_report_name">'Control_Manual_EN'</field>
     </record>
 </odoo>

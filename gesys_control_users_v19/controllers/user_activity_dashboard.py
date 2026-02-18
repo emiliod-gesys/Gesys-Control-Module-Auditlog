@@ -11,7 +11,7 @@ from odoo.http import request
 
 
 class UserActivityDashboardController(http.Controller):
-    @http.route('/gesys_control/user_activity_data', type='json', auth='user')
+    @http.route('/gesys_control/user_activity_data', type='jsonrpc', auth='user')
     def user_activity_data(self, period='day', date_anchor=None):
         env = request.env
         base_date = fields.Date.from_string(date_anchor) if date_anchor else fields.Date.context_today(env.user)

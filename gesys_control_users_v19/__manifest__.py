@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Control - User Activity Audit',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Tools',
     'summary': 'Audit user activity, key business actions and usage statistics',
     'description': """
@@ -43,12 +43,12 @@ Features:
     ],
     'assets': {
         'web.assets_backend': [
-            'gesys_control_users_v18/static/src/js/user_activity_dashboard.js',
-            'gesys_control_users_v18/static/src/xml/user_activity_dashboard.xml',
-            'gesys_control_users_v18/static/src/scss/user_activity_dashboard.scss',
-            'gesys_control_users_v18/static/src/js/statistics_dashboard.js',
-            'gesys_control_users_v18/static/src/xml/statistics_dashboard.xml',
-            'gesys_control_users_v18/static/src/scss/statistics_dashboard.scss',
+            'gesys_control_users_v19/static/src/js/user_activity_dashboard.js',
+            'gesys_control_users_v19/static/src/xml/user_activity_dashboard.xml',
+            'gesys_control_users_v19/static/src/scss/user_activity_dashboard.scss',
+            'gesys_control_users_v19/static/src/js/statistics_dashboard.js',
+            'gesys_control_users_v19/static/src/xml/statistics_dashboard.xml',
+            'gesys_control_users_v19/static/src/scss/statistics_dashboard.scss',
         ],
     },
     'installable': True,

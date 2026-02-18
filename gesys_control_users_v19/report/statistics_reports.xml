@@ -170,8 +170,8 @@
         <field name="name">Reporte de Actividad</field>
         <field name="model">gesys_control.statistics_report_wizard</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">gesys_control_users_v18.report_activity_summary</field>
-        <field name="report_file">gesys_control_users_v18.report_activity_summary</field>
+        <field name="report_name">gesys_control_users_v19.report_activity_summary</field>
+        <field name="report_file">gesys_control_users_v19.report_activity_summary</field>
         <field name="print_report_name">'Control_Actividad_%s' % (object.date_anchor)</field>
     </record>
 
@@ -179,8 +179,8 @@
         <field name="name">Reporte Ejecutivo</field>
         <field name="model">gesys_control.statistics_report_wizard</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">gesys_control_users_v18.report_executive_summary</field>
-        <field name="report_file">gesys_control_users_v18.report_executive_summary</field>
+        <field name="report_name">gesys_control_users_v19.report_executive_summary</field>
+        <field name="report_file">gesys_control_users_v19.report_executive_summary</field>
         <field name="print_report_name">'Control_Ejecutivo_%s' % (object.date_anchor)</field>
     </record>
 
@@ -188,8 +188,8 @@
         <field name="name">Reporte por Usuario</field>
         <field name="model">gesys_control.statistics_report_wizard</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">gesys_control_users_v18.report_by_user</field>
-        <field name="report_file">gesys_control_users_v18.report_by_user</field>
+        <field name="report_name">gesys_control_users_v19.report_by_user</field>
+        <field name="report_file">gesys_control_users_v19.report_by_user</field>
         <field name="print_report_name">'Control_PorUsuario_%s' % (object.date_anchor)</field>
     </record>
 </odoo>

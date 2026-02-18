@@ -21,7 +21,7 @@ if BaseDataset:
         @http.route([
             '/web/dataset/call_button',
             '/web/dataset/call_button/<string:model>/<string:method>',
-        ], type='json', auth='user')
+        ], type='jsonrpc', auth='user')
         def call_button(self, model=None, method=None, args=None, kwargs=None):
             args = args or []
             kwargs = kwargs or {}

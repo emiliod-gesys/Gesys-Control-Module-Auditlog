@@ -128,7 +128,8 @@
                 <filter string="Deletions" name="delete" domain="[('action_type', 'in', ['delete', 'unlink'])]"/>
                 <separator/>
                 <filter string="My User" name="my_user" domain="[('user_id', '=', uid)]"/>
-                <group expand="0" string="Group By">
+                <separator string="Group By"/>
+                <group>
                     <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
                     <filter string="Action Type" name="group_action_type" context="{'group_by': 'action_type'}"/>
                     <filter string="Date" name="group_date" context="{'group_by': 'action_date_only'}"/>

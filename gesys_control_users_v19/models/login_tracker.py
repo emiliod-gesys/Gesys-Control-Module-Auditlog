@@ -4,7 +4,8 @@ from datetime import datetime, time, timedelta
 import logging
 import pytz
 
-from odoo import api, fields, models, registry
+from odoo import api, fields, models
+from odoo.modules.registry import Registry
 
 _logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ class ResUsersLoginTracker(models.Model):
             uid = super()._login(db, login, password, user_agent_env=user_agent_env)
         if uid:
             try:
-                reg = registry(db)
+                reg = Registry.get(db)
                 with reg.cursor() as cr:
                     env = api.Environment(cr, uid, {'uid': uid})
                     cls._log_first_login_of_day(env, uid)
