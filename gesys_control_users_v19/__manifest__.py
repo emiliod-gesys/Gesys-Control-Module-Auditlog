@@ -66,7 +66,7 @@ Features:
     'application': True,
     'auto_install': False,
     'license': 'LGPL-3',
-    'price': 39.99,
+    'price': 19.99,
     'currency': 'USD',
     'external_dependencies': {
         'python': ['xlsxwriter'],
