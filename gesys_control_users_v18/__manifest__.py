@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Control - User Activity Audit',
-    'version': '17.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Tools',
     'summary': 'Audit user activity, key business actions and usage statistics',
     'description': """
@@ -24,8 +24,6 @@ Features:
     'maintainer': 'Gesys',
     'website': 'https://gesysgt.odoo.com',
     'support': 'emiliodiaz@gesys.gt',
-    'price': 39.99,
-    'currency': 'USD',
     'depends': ['base', 'mail', 'account', 'web', 'sale', 'purchase'],
     'data': [
         'security/security.xml',
@@ -45,18 +43,20 @@ Features:
     ],
     'assets': {
         'web.assets_backend': [
-            'gesys_control_users_v17/static/src/js/statistics_dashboard.js',
-            'gesys_control_users_v17/static/src/xml/statistics_dashboard.xml',
-            'gesys_control_users_v17/static/src/scss/statistics_dashboard.scss',
-            'gesys_control_users_v17/static/src/js/user_activity_dashboard.js',
-            'gesys_control_users_v17/static/src/xml/user_activity_dashboard.xml',
-            'gesys_control_users_v17/static/src/scss/user_activity_dashboard.scss',
+            'gesys_control_users_v18/static/src/js/user_activity_dashboard.js',
+            'gesys_control_users_v18/static/src/xml/user_activity_dashboard.xml',
+            'gesys_control_users_v18/static/src/scss/user_activity_dashboard.scss',
+            'gesys_control_users_v18/static/src/js/statistics_dashboard.js',
+            'gesys_control_users_v18/static/src/xml/statistics_dashboard.xml',
+            'gesys_control_users_v18/static/src/scss/statistics_dashboard.scss',
         ],
     },
     'installable': True,
     'application': True,
     'auto_install': False,
     'license': 'LGPL-3',
+    'price': 39.99,
+    'currency': 'USD',
     'external_dependencies': {
         'python': ['xlsxwriter'],
     },

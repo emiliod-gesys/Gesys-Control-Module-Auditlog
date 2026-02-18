@@ -5,8 +5,7 @@
         <field name="name">gesys_control.user_action.tree</field>
         <field name="model">gesys_control.user_action</field>
         <field name="arch" type="xml">
-            <tree string="User Actions" decoration-info="action_type == 'validate'" decoration-success="action_type == 'post'" decoration-danger="action_type == 'delete' or action_type == 'cancel'" decoration-warning="action_type == 'first_login_day'">
-                <field name="action_type" column_invisible="1"/>
+            <list string="User Actions" decoration-info="action_type == 'validate'" decoration-success="action_type == 'post'" decoration-danger="action_type == 'delete' or action_type == 'cancel'" decoration-warning="action_type == 'first_login_day'">
                 <field name="action_date" widget="datetime"/>
                 <field name="user_id" widget="many2one_avatar_user"/>
                 <field name="action_type_display" widget="badge"
@@ -21,7 +20,7 @@
                 <field name="changed_fields" invisible="not changed_fields"/>
                 <field name="action_method" invisible="not action_method"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-            </tree>
+            </list>
         </field>
     </record>
     
@@ -66,11 +65,11 @@
                             <group>
                                 <field name="changed_fields" readonly="1"/>
                                 <field name="line_ids" readonly="1" nolabel="1" colspan="2" invisible="not line_ids">
-                                    <tree create="0" delete="0" edit="0">
+                                    <list create="0" delete="0" edit="0">
                                         <field name="field_name"/>
                                         <field name="old_value_text"/>
                                         <field name="new_value_text"/>
-                                    </tree>
+                                    </list>
                                 </field>
                                 <field name="old_values" readonly="1" invisible="line_ids"/>
                                 <field name="new_values" readonly="1" invisible="line_ids"/>
@@ -204,7 +203,7 @@
     <record id="action_user_action_all" model="ir.actions.act_window">
         <field name="name">User Actions</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
         <field name="search_view_id" ref="view_user_action_search"/>
         <field name="context">{'create': False}</field>
         <field name="help" type="html">
@@ -221,7 +220,7 @@
     <record id="action_user_action_by_employee" model="ir.actions.act_window">
         <field name="name">Actions by Employee</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
         <field name="domain">[]</field>
         <field name="context">{'search_default_group_user': 1, 'create': False}</field>
         <field name="search_view_id" ref="view_user_action_search"/>
@@ -231,7 +230,7 @@
     <record id="action_user_activity" model="ir.actions.act_window">
         <field name="name">User Activity</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">graph,tree,form</field>
+        <field name="view_mode">graph,list,form</field>
         <field name="view_id" ref="view_user_action_graph_activity"/>
         <field name="search_view_id" ref="view_user_action_search"/>
         <field name="context">{'search_default_filter_today': 1, 'group_by': 'action_hour', 'create': False}</field>

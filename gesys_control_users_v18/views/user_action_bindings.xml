@@ -4,7 +4,7 @@
     <record id="action_view_actions_account_move" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','account.move'),('record_id','=',active_id)]</field>
@@ -12,7 +12,7 @@
     <record id="action_view_actions_res_partner" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="base.model_res_partner"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','res.partner'),('record_id','=',active_id)]</field>
@@ -20,7 +20,7 @@
     <record id="action_view_actions_product_product" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="product.model_product_product"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','product.product'),('record_id','=',active_id)]</field>
@@ -28,7 +28,7 @@
     <record id="action_view_actions_product_template" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="product.model_product_template"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','product.template'),('record_id','=',active_id)]</field>
@@ -36,7 +36,7 @@
     <record id="action_view_actions_sale_order" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="sale.model_sale_order"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','sale.order'),('record_id','=',active_id)]</field>
@@ -44,7 +44,7 @@
     <record id="action_view_actions_purchase_order" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="purchase.model_purchase_order"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','purchase.order'),('record_id','=',active_id)]</field>
@@ -52,7 +52,7 @@
     <record id="action_view_actions_res_users" model="ir.actions.act_window">
         <field name="name">Ver Acciones</field>
         <field name="res_model">gesys_control.user_action</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="binding_model_id" ref="base.model_res_users"/>
         <field name="binding_view_types">form</field>
         <field name="domain">[('model_name','=','res.users'),('record_id','=',active_id)]</field>

@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* gesys_control_users_v17
+# 	* gesys_control_users_v18
 #
 msgid ""
 msgstr ""
@@ -15,250 +15,250 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Control"
 msgstr "Control"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "User Actions"
 msgstr "Acciones de Usuarios"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Actions by Employee"
 msgstr "Acciones por Empleado"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Configuration"
 msgstr "Configuración"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "User"
 msgstr "Usuario"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Administrator"
 msgstr "Administrador"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "User Actions"
 msgstr "Acciones de Usuarios"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Actions by Employee"
 msgstr "Acciones por Empleado"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Change Lines"
 msgstr "Líneas de cambio"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "User Activity"
 msgstr "Actividad de Usuarios"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Statistics"
 msgstr "Estadísticas"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Rules"
 msgstr "Reglas"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Audit Rules"
 msgstr "Reglas de auditoría"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Control Configuration"
 msgstr "Configuración de Control"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Module Interface Language"
 msgstr "Idioma de la Interfaz del Módulo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "English"
 msgstr "Inglés"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Spanish"
 msgstr "Español"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Information"
 msgstr "Información"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Storage usage"
 msgstr "Uso de espacio"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Automatic Record Cleanup"
 msgstr "Borrado Automático de Registros"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Delete Records Now"
 msgstr "Borrar Registros Ahora"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Working schedule"
 msgstr "Horario laboral"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Audit options"
 msgstr "Opciones de auditoría"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Module Access"
 msgstr "Acceso al Módulo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Delete ALL"
 msgstr "Borrar TODO"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Date"
 msgstr "Fecha"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Date and Time"
 msgstr "Fecha y Hora"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Action"
 msgstr "Acción"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Field"
 msgstr "Campo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Old Value"
 msgstr "Valor Anterior"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "New Value"
 msgstr "Valor Nuevo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Action Type"
 msgstr "Tipo de Acción"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Action Type (Display)"
 msgstr "Tipo de Acción (Display)"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Model"
 msgstr "Modelo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Model Description"
 msgstr "Descripción del Modelo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Record ID"
 msgstr "ID del Registro"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Record Name"
 msgstr "Nombre del Registro"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Record Name (Saved)"
 msgstr "Nombre del Registro (Guardado)"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Record Name (Simple)"
 msgstr "Nombre del Registro (Simple)"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Description"
 msgstr "Descripción"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Method/Button"
 msgstr "Método/Botón"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Changed fields"
 msgstr "Campos cambiados"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Old values"
 msgstr "Valores anteriores"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "New values"
 msgstr "Valores nuevos"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Hour"
 msgstr "Hora"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Weekday"
 msgstr "Día de Semana"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Day of Month"
 msgstr "Día del Mes"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Company"
 msgstr "Compañía"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "IP Address"
 msgstr "Dirección IP"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "HTTP Path"
 msgstr "Ruta HTTP"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "HTTP Session"
 msgstr "Sesión HTTP"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Protected"
 msgstr "Protegido"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Enable Automatic Cleanup"
 msgstr "Activar Borrado Automático"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Users with module access"
 msgstr "Usuarios con acceso al módulo"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Time Zone"
 msgstr "Huso Horario"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Cleanup records older than"
 msgstr "Limpieza de registros mayores de"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Enable working schedule"
 msgstr "Activar horario laboral"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Working days"
 msgstr "Días laborables"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Start time"
 msgstr "Hora inicio"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "End time"
 msgstr "Hora fin"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Last Cleanup"
 msgstr "Última Limpieza"
 
-#. module: gesys_control_users_v17
+#. module: gesys_control_users_v18
 msgid "Next Cleanup"
 msgstr "Próxima Limpieza"

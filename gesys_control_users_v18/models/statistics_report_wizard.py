@@ -95,10 +95,10 @@ class StatisticsReportWizard(models.TransientModel):
         }
 
     def action_report_activity(self):
-        return self.env.ref('gesys_control_users_v17.action_report_activity_summary').report_action(self)
+        return self.env.ref('gesys_control_users_v18.action_report_activity_summary').report_action(self)
 
     def action_report_executive(self):
-        return self.env.ref('gesys_control_users_v17.action_report_executive_summary').report_action(self)
+        return self.env.ref('gesys_control_users_v18.action_report_executive_summary').report_action(self)
 
     def action_report_by_user(self):
-        return self.env.ref('gesys_control_users_v17.action_report_by_user').report_action(self)
+        return self.env.ref('gesys_control_users_v18.action_report_by_user').report_action(self)

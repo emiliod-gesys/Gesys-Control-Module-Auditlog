@@ -2,8 +2,8 @@
 
 import { Component, onMounted, onPatched, onWillStart, useRef, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
 import { loadJS } from "@web/core/assets";
+import { rpc } from "@web/core/network/rpc";
 import { _t } from "@web/core/l10n/translation";
 
 const CHART_COLORS = [
@@ -21,7 +21,6 @@ const CHART_COLORS = [
 
 export class StatisticsDashboard extends Component {
     setup() {
-        this.rpc = useService("rpc");
         this.state = useState({
             period: "day",
             date: this._getTodayString(),
@@ -78,7 +77,7 @@ export class StatisticsDashboard extends Component {
 
     async _loadData() {
         this.state.loading = true;
-        const result = await this.rpc("/gesys_control/statistics_data", {
+        const result = await rpc("/gesys_control/statistics_data", {
             period: this.state.period,
             date_anchor: this.state.date,
         });

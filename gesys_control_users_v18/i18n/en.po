@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* gesys_control_users_v17
+# 	* gesys_control_users_v18
 #
 msgid ""
 msgstr ""
@@ -15,22 +15,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n"
 
-#. module: gesys_control_users_v17
-#: model:ir.module.category,name:gesys_control_users_v17.module_category_gesys_control
+#. module: gesys_control_users_v18
+#: model:ir.module.category,name:gesys_control_users_v18.module_category_gesys_control
 msgid "Control"
 msgstr "Control"
 
-#. module: gesys_control_users_v17
-#: model:ir.actions.act_window,name:gesys_control_users_v17.action_user_action_all
+#. module: gesys_control_users_v18
+#: model:ir.actions.act_window,name:gesys_control_users_v18.action_user_action_all
 msgid "User Actions"
 msgstr "User Actions"
 
-#. module: gesys_control_users_v17
-#: model:ir.actions.act_window,name:gesys_control_users_v17.action_user_action_by_employee
+#. module: gesys_control_users_v18
+#: model:ir.actions.act_window,name:gesys_control_users_v18.action_user_action_by_employee
 msgid "Actions by Employee"
 msgstr "Actions by Employee"
 
-#. module: gesys_control_users_v17
-#: model:ir.actions.act_window,name:gesys_control_users_v17.action_user_action_config
+#. module: gesys_control_users_v18
+#: model:ir.actions.act_window,name:gesys_control_users_v18.action_user_action_config
 msgid "Configuration"
 msgstr "Configuration"

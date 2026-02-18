@@ -1,6 +1,6 @@
-# Control (gesys_control_users_v17)
+# Control (gesys_control_users_v18)
 
-**User activity audit, key action tracking and control dashboards for Odoo 17.**
+**User activity audit, key action tracking and control dashboards for Odoo 18.**
 
 This module records and monitors key user actions across your Odoo instance for audit, compliance and support. It includes dashboards, statistics and optional automatic purge.
 
@@ -17,7 +17,7 @@ This module records and monitors key user actions across your Odoo instance for 
 
 ## Requirements
 
-- **Odoo:** 17.0
+- **Odoo:** 18.0
 - **Python:** `xlsxwriter`
 - **Dependencies:** `base`, `mail`, `account`, `web`, `sale`, `purchase`
 
@@ -46,6 +46,7 @@ LGPL-3.
 **Gesys**
 
 - Website: [https://gesysgt.odoo.com](https://gesysgt.odoo.com)
+
 - Contact: emiliodiaz@gesys.gt
 
 ## Odoo Store Checklist
@@ -55,3 +56,4 @@ For publication on the Odoo App Store:
 - **Icon:** Included at `static/description/icon.png` (PNG format).
 - **Description:** The store uses `static/description/index.html` (English, no JavaScript; only YouTube/mailto and links to files in `static/description` per Odoo guidelines).
 - **Manifest:** Optional fields for the store: `support` (email), `images` (e.g. `['images/main_screenshot.png']`), `live_test_url` (demo instance).
+- **Price:** `39.99 USD` (`price`: `39.99`, `currency`: `USD`).

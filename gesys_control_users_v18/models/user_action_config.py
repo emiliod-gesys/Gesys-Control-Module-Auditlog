@@ -432,7 +432,7 @@ class UserActionConfig(models.Model):
 
     def _sync_access_group(self):
         """Asignar grupo de acceso a usuarios permitidos."""
-        group = self.env.ref('gesys_control_users_v17.group_gesys_control_user').sudo().with_context(
+        group = self.env.ref('gesys_control_users_v18.group_gesys_control_user').sudo().with_context(
             gesys_control_skip_tracking=True
         )
         group_user = self.env.ref('base.group_user').sudo()
@@ -528,14 +528,14 @@ class UserActionConfig(models.Model):
             lang_key = 'es' if record._get_effective_module_lang() != 'en_US' else 'en'
 
             action_xmlids = [
-                'gesys_control_users_v17.action_user_action_all',
-                'gesys_control_users_v17.action_user_action_by_employee',
-                'gesys_control_users_v17.action_user_action_line',
-                'gesys_control_users_v17.action_user_action_rule',
-                'gesys_control_users_v17.action_user_activity',
-                'gesys_control_users_v17.action_statistics_report_wizard',
-                'gesys_control_users_v17.action_user_activity_dashboard',
-                'gesys_control_users_v17.action_statistics_dashboard',
+                'gesys_control_users_v18.action_user_action_all',
+                'gesys_control_users_v18.action_user_action_by_employee',
+                'gesys_control_users_v18.action_user_action_line',
+                'gesys_control_users_v18.action_user_action_rule',
+                'gesys_control_users_v18.action_user_activity',
+                'gesys_control_users_v18.action_statistics_report_wizard',
+                'gesys_control_users_v18.action_user_activity_dashboard',
+                'gesys_control_users_v18.action_statistics_dashboard',
             ]
             for xmlid in action_xmlids:
                 action = self.env.ref(xmlid, raise_if_not_found=False)
@@ -556,25 +556,25 @@ class UserActionConfig(models.Model):
 
             # Keep module navigation labels aligned with selected module language.
             menu_name_map = {
-                'gesys_control_users_v17.menu_control_root': {'en': 'Control', 'es': 'Control'},
-                'gesys_control_users_v17.menu_control_user_actions': {'en': 'User Actions', 'es': 'Acciones de Usuarios'},
-                'gesys_control_users_v17.menu_control_by_employee': {'en': 'Actions by Employee', 'es': 'Acciones por Empleado'},
-                'gesys_control_users_v17.menu_control_log_lines': {'en': 'Change Lines', 'es': 'Lineas de cambio'},
-                'gesys_control_users_v17.menu_control_user_activity': {'en': 'User Activity', 'es': 'Actividad Usuarios'},
-                'gesys_control_users_v17.menu_control_statistics': {'en': 'Statistics', 'es': 'Estadisticas'},
-                'gesys_control_users_v17.menu_control_rules': {'en': 'Rules', 'es': 'Reglas'},
-                'gesys_control_users_v17.menu_control_config': {'en': 'Configuration', 'es': 'Configuracion'},
+                'gesys_control_users_v18.menu_control_root': {'en': 'Control', 'es': 'Control'},
+                'gesys_control_users_v18.menu_control_user_actions': {'en': 'User Actions', 'es': 'Acciones de Usuarios'},
+                'gesys_control_users_v18.menu_control_by_employee': {'en': 'Actions by Employee', 'es': 'Acciones por Empleado'},
+                'gesys_control_users_v18.menu_control_log_lines': {'en': 'Change Lines', 'es': 'Lineas de cambio'},
+                'gesys_control_users_v18.menu_control_user_activity': {'en': 'User Activity', 'es': 'Actividad Usuarios'},
+                'gesys_control_users_v18.menu_control_statistics': {'en': 'Statistics', 'es': 'Estadisticas'},
+                'gesys_control_users_v18.menu_control_rules': {'en': 'Rules', 'es': 'Reglas'},
+                'gesys_control_users_v18.menu_control_config': {'en': 'Configuration', 'es': 'Configuracion'},
             }
             action_name_map = {
-                'gesys_control_users_v17.action_user_action_all': {'en': 'User Actions', 'es': 'Acciones de Usuarios'},
-                'gesys_control_users_v17.action_user_action_by_employee': {'en': 'Actions by Employee', 'es': 'Acciones por Empleado'},
-                'gesys_control_users_v17.action_user_action_line': {'en': 'Change Lines', 'es': 'Lineas de cambio'},
-                'gesys_control_users_v17.action_user_action_rule': {'en': 'Audit Rules', 'es': 'Reglas de auditoria'},
-                'gesys_control_users_v17.action_user_activity': {'en': 'User Activity', 'es': 'Actividad Usuarios'},
-                'gesys_control_users_v17.action_statistics_report_wizard': {'en': 'Statistics Report', 'es': 'Informe de estadisticas'},
-                'gesys_control_users_v17.action_user_activity_dashboard': {'en': 'User Activity', 'es': 'Actividad Usuarios'},
-                'gesys_control_users_v17.action_statistics_dashboard': {'en': 'Statistics', 'es': 'Estadisticas'},
-                'gesys_control_users_v17.action_user_action_config_server': {'en': 'Configuration', 'es': 'Configuracion'},
+                'gesys_control_users_v18.action_user_action_all': {'en': 'User Actions', 'es': 'Acciones de Usuarios'},
+                'gesys_control_users_v18.action_user_action_by_employee': {'en': 'Actions by Employee', 'es': 'Acciones por Empleado'},
+                'gesys_control_users_v18.action_user_action_line': {'en': 'Change Lines', 'es': 'Lineas de cambio'},
+                'gesys_control_users_v18.action_user_action_rule': {'en': 'Audit Rules', 'es': 'Reglas de auditoria'},
+                'gesys_control_users_v18.action_user_activity': {'en': 'User Activity', 'es': 'Actividad Usuarios'},
+                'gesys_control_users_v18.action_statistics_report_wizard': {'en': 'Statistics Report', 'es': 'Informe de estadisticas'},
+                'gesys_control_users_v18.action_user_activity_dashboard': {'en': 'User Activity', 'es': 'Actividad Usuarios'},
+                'gesys_control_users_v18.action_statistics_dashboard': {'en': 'Statistics', 'es': 'Estadisticas'},
+                'gesys_control_users_v18.action_user_action_config_server': {'en': 'Configuration', 'es': 'Configuracion'},
             }
 
             for xmlid, labels in menu_name_map.items():
@@ -592,7 +592,7 @@ class UserActionConfig(models.Model):
                         action.sudo().with_context(gesys_control_skip_tracking=True).write({'name': name})
 
             # Apply visible text swap in the configuration form itself.
-            config_view = self.env.ref('gesys_control_users_v17.view_user_action_config_form', raise_if_not_found=False)
+            config_view = self.env.ref('gesys_control_users_v18.view_user_action_config_form', raise_if_not_found=False)
             if config_view and config_view.arch_db:
                 text_map = {
                     'Control Configuration': 'Configuracion de Control',
@@ -696,7 +696,7 @@ class UserActionConfig(models.Model):
     def _ensure_cleanup_cron(self):
         """Asegurar frecuencia del cron de limpieza (5 minutos)."""
         try:
-            cron = self.env.ref('gesys_control_users_v17.ir_cron_cleanup_old_actions').sudo().with_context(
+            cron = self.env.ref('gesys_control_users_v18.ir_cron_cleanup_old_actions').sudo().with_context(
                 gesys_control_skip_tracking=True
             )
             cron.write({
@@ -811,19 +811,19 @@ class UserActionConfig(models.Model):
             'res_model': 'gesys_control.purge_actions_wizard',
             'view_mode': 'form',
             'target': 'new',
-            'view_id': self.env.ref('gesys_control_users_v17.view_purge_actions_wizard_form').id,
+            'view_id': self.env.ref('gesys_control_users_v18.view_purge_actions_wizard_form').id,
             'context': {'default_config_id': self.id},
         }
 
     def action_print_manual_es(self):
         """Abrir reporte PDF del manual en español."""
         self.ensure_one()
-        return self.env.ref('gesys_control_users_v17.action_report_user_manual_es').report_action(self)
+        return self.env.ref('gesys_control_users_v18.action_report_user_manual_es').report_action(self)
 
     def action_print_manual_en(self):
         """Abrir reporte PDF del manual en inglés."""
         self.ensure_one()
-        return self.env.ref('gesys_control_users_v17.action_report_user_manual_en').report_action(self)
+        return self.env.ref('gesys_control_users_v18.action_report_user_manual_en').report_action(self)
 
     def purge_all_actions(self):
         """Borrar todas las acciones no protegidas y registrar el evento."""
