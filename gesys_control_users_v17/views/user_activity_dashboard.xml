@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_user_activity_dashboard" model="ir.actions.client">
+        <field name="name">User Activity</field>
+        <field name="tag">gesys_control_user_activity_dashboard</field>
+    </record>
+    <record id="action_statistics_dashboard" model="ir.actions.client">
+        <field name="name">Statistics</field>
+        <field name="tag">gesys_control_statistics_dashboard</field>
+    </record>
+</odoo>

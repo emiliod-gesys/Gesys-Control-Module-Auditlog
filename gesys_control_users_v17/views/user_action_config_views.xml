@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de formulario de configuración -->
+    <record id="view_user_action_config_form" model="ir.ui.view">
+        <field name="name">gesys_control.config.form</field>
+        <field name="model">gesys_control.config</field>
+        <field name="arch" type="xml">
+            <form string="Control Configuration" create="0">
+                <sheet>
+                    <group>
+                        <group string="Information">
+                            <div colspan="2">
+                                <strong>User Control module configuration</strong>
+                            </div>
+                            <field name="ui_language_mode"/>
+                            <field name="timezone"/>
+                            <field name="delete_frequency_display" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Storage usage">
+                        <field name="storage_usage_display" readonly="1"/>
+                        <div class="text-muted">
+                            Space used by Actions and Change Lines. Updated when opening configuration.
+                        </div>
+                    </group>
+                    <group string="Automatic Record Cleanup">
+                        <button name="cleanup_old_records_manual" string="Delete Records Now" type="object"
+                                class="btn-primary" confirm="Are you sure you want to clean up old records now?"/>
+                        <field name="auto_delete_enabled"/>
+                        <field name="delete_frequency" required="auto_delete_enabled" readonly="not auto_delete_enabled"/>
+                        <div class="alert alert-info" role="alert">
+                            <p><strong>Information:</strong></p>
+                            <ul>
+                                <li>If automatic cleanup is enabled, old records are removed based on selected frequency.</li>
+                                <li>Cleanup runs automatically using a scheduled job.</li>
+                                <li>Once deleted, records cannot be recovered.</li>
+                            </ul>
+                        </div>
+                    </group>
+                    <group string="Working schedule">
+                        <field name="work_schedule_enabled"/>
+                        <field name="work_schedule_days" invisible="not work_schedule_enabled"/>
+                        <field name="work_schedule_start" invisible="not work_schedule_enabled"/>
+                        <field name="work_schedule_end" invisible="not work_schedule_enabled"/>
+                        <div class="text-muted" invisible="not work_schedule_enabled">
+                            In User Activity, out-of-schedule actions are shown in red.
+                            Users can define their own schedule in their profile (Working schedule tab), which overrides the general one.
+                        </div>
+                    </group>
+                    <group string="Audit options">
+                        <field name="log_read"/>
+                        <field name="log_mode"/>
+                        <div class="alert alert-warning" role="alert" invisible="not log_read">
+                            <p><strong>Warning:</strong> Read logging can generate high volume.</p>
+                        </div>
+                    </group>
+                    <group string="Module Access">
+                        <field name="allowed_user_ids" widget="many2many_tags"/>
+                        <div class="alert alert-warning" role="alert">
+                            <p><strong>Note:</strong> Administrators always keep access.</p>
+                        </div>
+                    </group>
+                    <notebook>
+                        <page string="Manual">
+                            <div class="mb-3">
+                                <button name="action_print_manual_es" type="object" string="Download manual (PDF) – Spanish" class="btn-primary"/>
+                                <button name="action_print_manual_en" type="object" string="Download manual (PDF) – English" class="btn-secondary"/>
+                            </div>
+                            <div class="alert alert-info" role="alert">
+                                <p><strong>User manual - User Control</strong></p>
+                                <ul>
+                                    <li>The module logs user actions on forms and system buttons.</li>
+                                    <li>Actions are shown in the "User Actions" menu.</li>
+                                    <li>Use search to filter by text, user, model, action type or name.</li>
+                                    <li>Use date filters to narrow time ranges.</li>
+                                    <li>Click an action to view details and open the related record when available.</li>
+                                </ul>
+                            </div>
+                            <div class="alert alert-secondary" role="alert">
+                                <p><strong>Column guide (User Actions)</strong></p>
+                                <ul>
+                                    <li><strong>Date:</strong> exact date and time of the action.</li>
+                                    <li><strong>User:</strong> user who performed the action.</li>
+                                    <li><strong>Action Type (Display):</strong> compact label for action type.</li>
+                                    <li><strong>Model Description:</strong> functional model name (for example, Invoice, Product).</li>
+                                    <li><strong>Record Name:</strong> full record name with context.</li>
+                                    <li><strong>Record Name (Simple):</strong> short record name (name field only).</li>
+                                    <li><strong>Description (Display):</strong> action detail and relevant changes.</li>
+                                    <li><strong>Changed fields:</strong> list of modified fields (when applicable).</li>
+                                    <li><strong>Method/Button:</strong> executed button or method (when applicable).</li>
+                                    <li><strong>Company:</strong> company linked to the action.</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_open_purge_all_wizard" string="Delete ALL" type="object"
+                            class="btn-danger"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Eliminar acción antigua si existe (era ir.actions.act_window) -->
+    <delete id="action_user_action_config" model="ir.actions.act_window"/>
+    
+    <!-- Action: Configuration (server action to open singleton) -->
+    <record id="action_user_action_config_server" model="ir.actions.server">
+        <field name="name">Configuration</field>
+        <field name="model_id" ref="model_gesys_control_config"/>
+        <field name="binding_model_id" ref="model_gesys_control_config"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env['gesys_control.config'].action_load_config()
+        </field>
+    </record>
+
+</odoo>

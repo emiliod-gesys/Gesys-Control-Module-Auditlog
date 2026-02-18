@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_users_form_work_schedule" model="ir.ui.view">
+        <field name="name">res.users.form.work_schedule</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Working schedule" name="gesys_work_schedule">
+                    <group>
+                        <field name="gesys_work_schedule_override"/>
+                        <field name="gesys_work_schedule_days" invisible="not gesys_work_schedule_override"/>
+                        <field name="gesys_work_schedule_start" invisible="not gesys_work_schedule_override"/>
+                        <field name="gesys_work_schedule_end" invisible="not gesys_work_schedule_override"/>
+                        <div class="text-muted" invisible="not gesys_work_schedule_override">
+                            Overrides the general schedule. In User Activity, actions outside this schedule are shown in red.
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

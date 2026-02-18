@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="gesys_control_user_activity_dashboard">
+        <div class="o_gesys_activity_dashboard" t-ref="dashboardRoot">
+            <div class="o_gesys_filters">
+                <div class="o_gesys_filter">
+                    <label class="form-label">Periodo</label>
+                    <select class="form-select js-period" t-model="state.period" t-on-change="onPeriodChange">
+                        <option value="day">Día</option>
+                        <option value="week">Semana (Lun-Vie)</option>
+                        <option value="month">Mes</option>
+                    </select>
+                </div>
+                <div class="o_gesys_filter">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" class="form-control js-date" t-model="state.date" t-on-change="onDateChange"/>
+                </div>
+            </div>
+            <div class="alert alert-info mb-2" role="alert" t-if="state.work_schedule_enabled">
+                <small>● Rojo = acciones fuera del horario laboral</small>
+            </div>
+            <t t-if="state.users.length">
+                <div class="o_gesys_dashboard_grid js-dashboard-grid">
+                    <t t-foreach="state.users" t-as="user" t-key="user.id">
+                        <div class="o_gesys_card">
+                            <div class="o_gesys_card_header">
+                                <t t-esc="user.name"/>
+                            </div>
+                            <div class="o_gesys_card_body">
+                                <canvas class="o_gesys_chart" t-att-data-user-id="user.id"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="o_gesys_empty">
+                    <t t-esc="emptyMessage"/>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>
