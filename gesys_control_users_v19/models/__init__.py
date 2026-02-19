@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from . import account_bank_statement_line
 from . import res_users
 from . import user_action
 from . import user_action_line
