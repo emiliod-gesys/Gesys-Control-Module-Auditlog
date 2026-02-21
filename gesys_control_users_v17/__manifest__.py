@@ -35,7 +35,7 @@ Features:
         'images/rules_1.png',
         'images/configuration_1.png',
     ],
-    'price': 19.99,
+    'price': 0,
     'currency': 'USD',
     'depends': ['base', 'mail', 'account', 'web', 'sale', 'purchase'],
     'data': [
