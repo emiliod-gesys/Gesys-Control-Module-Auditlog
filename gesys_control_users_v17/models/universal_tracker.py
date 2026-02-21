@@ -171,6 +171,10 @@ def _track_action_universal(self, action_type, description=None, action_method=N
 @api.model_create_multi
 def _patched_create(self, vals_list):
     """Versi?n parcheada de create que agrega tracking universal"""
+    # Saltar para res.users.log - evita race con registry durante login
+    if self._name == 'res.users.log':
+        return _original_create(self, vals_list)
+
     records = _original_create(self, vals_list)
     
     # Rastrear creaci?n para cada registro creado
@@ -186,6 +190,10 @@ def _patched_create(self, vals_list):
 def _patched_write(self, vals):
     """Versi?n parcheada de write que agrega tracking universal"""
     if not vals:
+        return _original_write(self, vals)
+
+    # Saltar tracking para account.move - evita InFailedSqlTransaction al registrar pagos
+    if self._name == 'account.move':
         return _original_write(self, vals)
 
     ignored_fields = {
