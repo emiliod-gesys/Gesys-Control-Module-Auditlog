@@ -25,7 +25,7 @@ Features:
     'website': 'https://gesysgt.odoo.com',
     'support': 'emiliodiaz@gesys.gt',
     'images': [
-        'images/main_screenshot.png',
+        'images/main_screenshot.gif',
         'images/user_actions_1.png',
         'images/user_actions_2.png',
         'images/actions_by_employee_1.png',
