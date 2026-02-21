@@ -53,4 +53,4 @@ For publication on the Odoo App Store:
 
 - **Icon:** Included at `static/description/icon.png` (PNG format).
 - **Description:** The store uses `static/description/index.html` (English, no JavaScript; only YouTube/mailto and links to files in `static/description` per Odoo guidelines).
-- **Manifest:** Optional fields for the store: `support` (email), `images` (e.g. `['images/main_screenshot.png']`), `live_test_url` (demo instance).
+- **Manifest:** Optional fields for the store: `support` (email), `images` (e.g. `['static/description/images/main_screenshot.png']`), `live_test_url` (demo instance).
