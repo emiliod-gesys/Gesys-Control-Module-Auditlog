@@ -33,7 +33,8 @@ class ResUsersLoginTracker(models.Model):
                 with reg.cursor() as cr:
                     env = api.Environment(cr, uid, {'uid': uid})
                     cls._log_first_login_of_day(env, uid)
-                    cr.commit()
+                    # No usar cr.commit() - el context manager hace commit al salir
+                    # y commit manual puede invalidar savepoints de otras operaciones
             except Exception as e:
                 _logger.warning(f"Error al registrar primer ingreso del día: {e}")
         return uid
