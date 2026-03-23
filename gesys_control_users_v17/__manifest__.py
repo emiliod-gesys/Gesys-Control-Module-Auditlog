@@ -36,7 +36,7 @@ Features:
         'static/description/images/rules_1.png',
         'static/description/images/configuration_1.png',
     ],
-    'price': 0,
+    'price': 12,
     'currency': 'USD',
     'depends': ['base', 'mail', 'account', 'web', 'sale', 'purchase'],
     'data': [
