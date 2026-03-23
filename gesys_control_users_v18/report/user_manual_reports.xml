@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========== MANUAL EN ESPAÑOL ========== -->
+    <template id="report_user_manual_es">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h1 style="color:#875a7b;">Manual de uso – Módulo Control</h1>
+                        <p><strong>Control</strong> registra y supervisa las acciones de los usuarios en Odoo para auditoría y cumplimiento. Este manual describe cada menú, pestaña y función.</p>
+
+                        <h2>1. Introducción y menú principal</h2>
+                        <p>Tras instalar el módulo, aparece la aplicación <strong>Control</strong> en la barra de aplicaciones. Solo los usuarios con permiso (grupo <em>Control / Usuario</em> o <em>Control / Administrador</em>) la ven.</p>
+                        <p><strong>Menú principal (Control):</strong></p>
+                        <ul>
+                            <li><strong>Acciones de Usuarios</strong> – Listado completo de acciones registradas.</li>
+                            <li><strong>Acciones por Empleado</strong> – Mismo listado agrupado por usuario.</li>
+                            <li><strong>Líneas de cambio</strong> – Detalle campo a campo de las modificaciones (writes).</li>
+                            <li><strong>Actividad Usuarios</strong> – Dashboard con gráficos por usuario y período.</li>
+                            <li><strong>Estadísticas</strong> – Dashboard con totales, por tipo, usuario, modelo y tendencia.</li>
+                            <li><strong>Informe de estadísticas (PDF)</strong> – Asistente para generar los reportes PDF (Actividad, Ejecutivo, Por usuario).</li>
+                            <li><strong>Reglas</strong> – Configuración de reglas por modelo (solo Administrador).</li>
+                            <li><strong>Configuración</strong> – Parámetros generales del módulo (solo Administrador).</li>
+                        </ul>
+
+                        <h2>2. Acciones de Usuarios</h2>
+                        <p><strong>Vista lista:</strong> Muestra todas las acciones con fecha, usuario, tipo de acción (badge), descripción del modelo, nombre del registro, descripción de la acción, campos cambiados (si aplica), método/botón y compañía (si hay multicompañía). Los colores del badge indican: creación (verde), modificación (azul), validación (verde), eliminación/cancelación (rojo), primer ingreso del día (naranja).</p>
+                        <p><strong>Vista formulario:</strong> Solo lectura. Cabecera: botón <strong>Ver Registro</strong> para abrir el registro relacionado (si existe). Pestañas:</p>
+                        <ul>
+                            <li><strong>Descripción</strong> – Texto libre de la acción.</li>
+                            <li><strong>Cambios</strong> – Campos modificados y lista de líneas (campo, valor antiguo, valor nuevo); si no hay líneas, se muestran <em>old_values</em> y <em>new_values</em> en texto.</li>
+                            <li><strong>Información Adicional</strong> – IP, ruta HTTP, sesión, fecha (solo fecha).</li>
+                        </ul>
+                        <p><strong>Vista búsqueda:</strong></p>
+                        <ul>
+                            <li><strong>Campos de búsqueda:</strong> Texto (descripción/registro), Usuario, Modelo, Tipo de acción, Método, Descripción, Nombre del registro (guardado o simple), Ruta HTTP.</li>
+                            <li><strong>Filtros de fecha:</strong> Fecha (selector), Hoy, Esta Semana (Lun–Vie), Este Mes, Este Año.</li>
+                            <li><strong>Filtros por tipo:</strong> Creaciones, Modificaciones, Validaciones, Eliminaciones, Mi Usuario.</li>
+                            <li><strong>Agrupar por:</strong> Usuario, Tipo de acción, Fecha, Por hora, Por día de semana, Por día del mes, Por mes, Por año, Modelo.</li>
+                        </ul>
+                        <p><strong>Vista kanban:</strong> Tarjetas por acción con tipo, modelo, nombre de registro, descripción y fecha. Agrupación por defecto por fecha.</p>
+                        <p><strong>Vista gráfico:</strong> Disponible desde la acción “Actividad Usuarios”; tipo línea.</p>
+                        <p>No se pueden crear ni editar acciones manualmente; se generan automáticamente por el sistema.</p>
+
+                        <h2>3. Acciones por Empleado</h2>
+                        <p>Abre el mismo modelo <em>Acciones de Usuarios</em> con agrupación por defecto por <strong>Usuario</strong>. Permite ver rápidamente cuántas acciones ha realizado cada usuario y desplegar el detalle.</p>
+
+                        <h2>4. Líneas de cambio</h2>
+                        <p>Lista de líneas asociadas a las acciones de tipo <em>write</em>: cada línea es un campo modificado con <strong>Fecha</strong>, <strong>Usuario</strong>, <strong>Acción</strong> (enlace a la acción), <strong>Campo</strong>, <strong>Valor antiguo</strong> (texto) y <strong>Valor nuevo</strong> (texto). No se pueden crear, editar ni eliminar desde la interfaz. Búsqueda por campo, usuario, acción y fecha; agrupación por campo.</p>
+
+                        <h2>5. Actividad Usuarios (dashboard)</h2>
+                        <p>Pantalla con gráficos por usuario para el período elegido.</p>
+                        <ul>
+                            <li><strong>Periodo:</strong> Día, Semana (Lun–Vie) o Mes.</li>
+                            <li><strong>Fecha:</strong> Selector de fecha (ancla del período).</li>
+                        </ul>
+                        <p>Si está activado el horario laboral en Configuración, aparece un aviso: “● Rojo = acciones fuera del horario laboral”. Cada usuario tiene una tarjeta con un gráfico (barras o líneas según período); las barras fuera de horario se muestran en rojo.</p>
+                        <p>Si no hay datos se muestra un mensaje de lista vacía.</p>
+
+                        <h2>6. Estadísticas (dashboard)</h2>
+                        <ul>
+                            <li><strong>Periodo:</strong> Día, Semana o Mes.</li>
+                            <li><strong>Fecha:</strong> Selector de fecha.</li>
+                            <li><strong>KPI:</strong> Total acciones (número grande).</li>
+                            <li><strong>Botón Exportar Excel:</strong> Descarga un archivo .xlsx con el reporte del período actual (por tipo, top usuarios, top modelos, tendencia).</li>
+                            <li><strong>Gráficos:</strong> Tendencia (línea), Por tipo de acción (barras horizontales), Top usuarios (barras), Top modelos (barras).</li>
+                        </ul>
+
+                        <h2>7. Reglas de auditoría</h2>
+                        <p>Solo para usuarios con grupo <em>Control / Administrador</em>. Permiten excluir del registro de auditoría ciertos usuarios o campos por modelo.</p>
+                        <p><strong>Vista lista:</strong> Modelo, Activo.</p>
+                        <p><strong>Vista formulario:</strong></p>
+                        <ul>
+                            <li><strong>Modelo</strong> – Modelo técnico de Odoo (obligatorio, único por regla).</li>
+                            <li><strong>Activo</strong> – Si está desmarcado, la regla no se aplica.</li>
+                            <li><strong>Usuarios a excluir</strong> – Las acciones de estos usuarios no se registran para este modelo.</li>
+                            <li><strong>Campos a excluir</strong> – Los cambios en estos campos no se registran (dominio: campos del modelo seleccionado).</li>
+                        </ul>
+                        <p>Solo puede haber una regla por modelo.</p>
+
+                        <h2>8. Configuración</h2>
+                        <p>Acceso: <strong>Control → Configuración</strong>. Un solo registro (singleton). Solo Administrador.</p>
+                        <p><strong>Información:</strong></p>
+                        <ul>
+                            <li><strong>Huso horario</strong> – Usado en gráficos y reportes (ej. Europe/Madrid, UTC).</li>
+                            <li><strong>Limpieza de registros mayores de</strong> – Solo lectura; refleja la opción de borrado automático seleccionada.</li>
+                        </ul>
+                        <p><strong>Uso de espacio:</strong> Texto que indica el espacio en disco ocupado por las tablas de acciones y líneas de cambio, y el número de acciones y líneas. Se actualiza al abrir el formulario.</p>
+                        <p><strong>Borrado automático de registros:</strong></p>
+                        <ul>
+                            <li><strong>Borrar registros ahora</strong> – Ejecuta la limpieza manual según la frecuencia configurada (con confirmación).</li>
+                            <li><strong>Activar borrado automático</strong> – Activa el cron que borra registros antiguos.</li>
+                            <li><strong>Limpieza de registros mayores de</strong> – Opciones: No borrar, 5 minutos, 48 horas, 1 semana, 1 mes, 3 meses, 6 meses, 1 año. Los registros con <em>action_date</em> anterior al límite (y no protegidos) se eliminan. El cron se ejecuta cada 5 minutos.</li>
+                        </ul>
+                        <p><strong>Horario laboral:</strong></p>
+                        <ul>
+                            <li><strong>Activar horario laboral</strong> – En “Actividad Usuarios”, las acciones fuera de horario se muestran en rojo.</li>
+                            <li><strong>Días laborables</strong> – 1=Lunes … 7=Domingo, separados por coma (ej. 1,2,3,4,5).</li>
+                            <li><strong>Hora inicio / Hora fin</strong> – Formato 24h decimal (8.0 = 08:00, 18.5 = 18:30).</li>
+                            <li>Cada usuario puede definir su propio horario en su ficha (pestaña Horario laboral); si está activo, anula el general.</li>
+                        </ul>
+                        <p><strong>Opciones de auditoría:</strong></p>
+                        <ul>
+                            <li><strong>Registrar lecturas</strong> – Si está activo, se registran las operaciones read (puede generar mucho volumen).</li>
+                            <li><strong>Modo de registro</strong> – Completo (diff antes/después) o Rápido (solo valores enviados).</li>
+                        </ul>
+                        <p><strong>Acceso al módulo:</strong> Lista de usuarios permitidos para ver el módulo Control. Los administradores (grupo Sistema) siempre tienen acceso. Al guardar se sincroniza el grupo de acceso.</p>
+                        <p><strong>Pestaña Manual:</strong> Texto de ayuda rápida sobre el módulo y explicación de columnas de “Acciones de Usuarios”.</p>
+                        <p><strong>Pie del formulario:</strong> Botón <strong>Borrar TODO</strong> – Abre el asistente de borrado total (ver apartado 10).</p>
+
+                        <h2>9. Ficha de usuario (Horario laboral)</h2>
+                        <p>En <strong>Configuración → Usuarios → [Usuario]</strong> se añade la pestaña <strong>Horario laboral</strong>:</p>
+                        <ul>
+                            <li><strong>Usar horario laboral propio</strong> – Si está activo, este horario sustituye al general para resaltar acciones fuera de horario en “Actividad Usuarios”.</li>
+                            <li><strong>Días laborables</strong> – Igual que en Configuración del módulo (1–7, separados por coma).</li>
+                            <li><strong>Hora inicio / Hora fin</strong> – Mismo formato 24h decimal.</li>
+                        </ul>
+
+                        <h2>10. Asistente de borrado total</h2>
+                        <p>Se abre desde <strong>Configuración → Borrar TODO</strong>. Advertencia: elimina <strong>todas</strong> las acciones no protegidas. Debe esperar al menos 5 segundos antes de pulsar <strong>Confirmar Borrado Total</strong>. Se registra un evento protegido (purge_all) que no se borrará. Tras confirmar se cierra el asistente.</p>
+
+                        <h2>11. Enlaces “Ver Acciones” en otros formularios</h2>
+                        <p>En los formularios de Factura (account.move), Contacto (res.partner), Producto (product.product y product.template), Pedido de venta (sale.order), Pedido de compra (purchase.order) y Usuario (res.users) aparece la acción <strong>Ver Acciones</strong> (menú o botón según configuración). Al pulsarla se abre la lista de acciones filtrada por ese modelo y ese <em>record_id</em> (registro actual).</p>
+
+                        <h2>12. Reportes PDF y Excel</h2>
+                        <p><strong>Reportes PDF:</strong> Desde <strong>Control → Informe de estadísticas (PDF)</strong> se abre un asistente con <strong>Período</strong> (Día/Semana/Mes) y <strong>Fecha</strong>. Los botones <em>PDF - Actividad</em>, <em>PDF - Ejecutivo</em> y <em>PDF - Por Usuario</em> generan los tres reportes. También puede usar Imprimir en ese formulario. Cada reporte muestra el período, las fechas, el total de acciones y tablas (por tipo, por usuario, por modelo, tendencia según el reporte).</p>
+                        <p><strong>Excel:</strong> Desde el dashboard <strong>Estadísticas</strong>, el botón <strong>Exportar Excel</strong> descarga un archivo con el período y fecha actuales del dashboard (por tipo, top usuarios, top modelos, tendencia). Requiere el paquete Python <code>xlsxwriter</code>.</p>
+
+                        <h2>13. Tipos de acción registrados</h2>
+                        <p>El módulo registra, entre otros: Creación, Lectura (si está activada), Modificación, Eliminación, Validación, Publicar, Cancelar, Borrador, Primer Ingreso del Día, Borrado Total, Exportación, Importación, Impresión, Correo, Reporte, Botón, Otro.</p>
+
+                        <h2>14. Grupos de seguridad</h2>
+                        <ul>
+                            <li><strong>Control / Usuario</strong> – Ver acciones, líneas, dashboards y reportes; no puede cambiar configuración ni reglas.</li>
+                            <li><strong>Control / Administrador</strong> – Todo lo anterior más Reglas y Configuración (incluido borrado automático y borrar todo).</li>
+                            <li>Los usuarios del grupo <em>Sistema</em> (admin) tienen siempre acceso al módulo.</li>
+                        </ul>
+
+                        <p style="margin-top:2em;"><strong>Fin del manual (Español)</strong></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ========== MANUAL EN INGLÉS ========== -->
+    <template id="report_user_manual_en">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h1 style="color:#875a7b;">User Manual – Control Module</h1>
+                        <p><strong>Control</strong> records and monitors user actions in Odoo for audit and compliance. This manual describes every menu, tab, and function.</p>
+
+                        <h2>1. Introduction and main menu</h2>
+                        <p>After installing the module, the <strong>Control</strong> app appears in the app bar. Only users with the appropriate permission (<em>Control / User</em> or <em>Control / Administrator</em> group) can see it.</p>
+                        <p><strong>Main menu (Control):</strong></p>
+                        <ul>
+                            <li><strong>User Actions</strong> – Full list of recorded actions.</li>
+                            <li><strong>Actions by Employee</strong> – Same list grouped by user.</li>
+                            <li><strong>Change Lines</strong> – Field-by-field detail of write operations.</li>
+                            <li><strong>User Activity</strong> – Dashboard with charts per user and period.</li>
+                            <li><strong>Statistics</strong> – Dashboard with totals, by type, user, model, and trend.</li>
+                            <li><strong>Statistics Report (PDF)</strong> – Wizard to generate the PDF reports (Activity, Executive, By user).</li>
+                            <li><strong>Rules</strong> – Per-model audit rules (Administrator only).</li>
+                            <li><strong>Configuration</strong> – Global module settings (Administrator only).</li>
+                        </ul>
+
+                        <h2>2. User Actions</h2>
+                        <p><strong>List view:</strong> Shows all actions with date, user, action type (badge), model description, record name, action description, changed fields (if any), method/button, and company (multi-company). Badge colours: create (green), write (blue), validate (green), delete/cancel (red), first login of day (orange).</p>
+                        <p><strong>Form view:</strong> Read-only. Header: <strong>View Record</strong> button to open the related record (if it exists). Tabs:</p>
+                        <ul>
+                            <li><strong>Description</strong> – Free-text description of the action.</li>
+                            <li><strong>Changes</strong> – Changed fields and list of lines (field, old value, new value); if no lines, <em>old_values</em> and <em>new_values</em> are shown as text.</li>
+                            <li><strong>Additional information</strong> – IP, HTTP path, session, date only.</li>
+                        </ul>
+                        <p><strong>Search view:</strong></p>
+                        <ul>
+                            <li><strong>Search fields:</strong> Text (description/record), User, Model, Action type, Method, Description, Record name (cached or simple), HTTP path.</li>
+                            <li><strong>Date filters:</strong> Date (picker), Today, This Week (Mon–Fri), This Month, This Year.</li>
+                            <li><strong>Type filters:</strong> Creates, Writes, Validations, Deletes, My User.</li>
+                            <li><strong>Group by:</strong> User, Action type, Date, Hour, Weekday, Day of month, Month, Year, Model.</li>
+                        </ul>
+                        <p><strong>Kanban view:</strong> Cards per action with type, model, record name, description, and date. Default grouping by date.</p>
+                        <p><strong>Graph view:</strong> Available from the “User Activity” action; line type.</p>
+                        <p>Actions cannot be created or edited manually; they are generated automatically by the system.</p>
+
+                        <h2>3. Actions by Employee</h2>
+                        <p>Opens the same <em>User Actions</em> model with default grouping by <strong>User</strong>. Lets you quickly see how many actions each user has performed and expand the detail.</p>
+
+                        <h2>4. Change Lines</h2>
+                        <p>List of lines linked to <em>write</em> actions: each line is one modified field with <strong>Date</strong>, <strong>User</strong>, <strong>Action</strong> (link to the action), <strong>Field</strong>, <strong>Old value</strong> (text), and <strong>New value</strong> (text). Cannot be created, edited, or deleted from the UI. Search by field, user, action, and date; group by field.</p>
+
+                        <h2>5. User Activity (dashboard)</h2>
+                        <p>Screen with charts per user for the selected period.</p>
+                        <ul>
+                            <li><strong>Period:</strong> Day, Week (Mon–Fri), or Month.</li>
+                            <li><strong>Date:</strong> Date picker (period anchor).</li>
+                        </ul>
+                        <p>If work schedule is enabled in Configuration, a notice appears: “● Red = actions outside work schedule”. Each user has a card with a chart (bars or lines depending on period); bars outside schedule are shown in red.</p>
+                        <p>If there is no data, an empty-state message is shown.</p>
+
+                        <h2>6. Statistics (dashboard)</h2>
+                        <ul>
+                            <li><strong>Period:</strong> Day, Week, or Month.</li>
+                            <li><strong>Date:</strong> Date picker.</li>
+                            <li><strong>KPI:</strong> Total actions (large number).</li>
+                            <li><strong>Export Excel button:</strong> Downloads an .xlsx file with the current period report (by type, top users, top models, trend).</li>
+                            <li><strong>Charts:</strong> Trend (line), By action type (horizontal bars), Top users (bars), Top models (bars).</li>
+                        </ul>
+
+                        <h2>7. Audit rules</h2>
+                        <p>Only for users in the <em>Control / Administrator</em> group. Rules let you exclude certain users or fields from being logged, per model.</p>
+                        <p><strong>List view:</strong> Model, Active.</p>
+                        <p><strong>Form view:</strong></p>
+                        <ul>
+                            <li><strong>Model</strong> – Odoo technical model (required, unique per rule).</li>
+                            <li><strong>Active</strong> – If unchecked, the rule is not applied.</li>
+                            <li><strong>Users to exclude</strong> – Actions by these users are not logged for this model.</li>
+                            <li><strong>Fields to exclude</strong> – Changes to these fields are not logged (domain: fields of the selected model).</li>
+                        </ul>
+                        <p>Only one rule per model is allowed.</p>
+
+                        <h2>8. Configuration</h2>
+                        <p>Access: <strong>Control → Configuration</strong>. Single record (singleton). Administrator only.</p>
+                        <p><strong>Information:</strong></p>
+                        <ul>
+                            <li><strong>Timezone</strong> – Used in charts and reports (e.g. Europe/Madrid, UTC).</li>
+                            <li><strong>Cleanup records older than</strong> – Read-only; reflects the selected auto-delete option.</li>
+                        </ul>
+                        <p><strong>Storage usage:</strong> Text showing disk space used by the action and change-line tables, and the number of actions and lines. Updated when the form is opened.</p>
+                        <p><strong>Automatic record cleanup:</strong></p>
+                        <ul>
+                            <li><strong>Delete records now</strong> – Runs manual cleanup according to the configured frequency (with confirmation).</li>
+                            <li><strong>Enable automatic delete</strong> – Enables the cron that deletes old records.</li>
+                            <li><strong>Cleanup records older than</strong> – Options: Never, 5 minutes, 48 hours, 1 week, 1 month, 3 months, 6 months, 1 year. Records with <em>action_date</em> before the limit (and not protected) are removed. The cron runs every 5 minutes.</li>
+                        </ul>
+                        <p><strong>Work schedule:</strong></p>
+                        <ul>
+                            <li><strong>Enable work schedule</strong> – In “User Activity”, actions outside schedule are shown in red.</li>
+                            <li><strong>Work days</strong> – 1=Monday … 7=Sunday, comma-separated (e.g. 1,2,3,4,5).</li>
+                            <li><strong>Start time / End time</strong> – 24h decimal format (8.0 = 08:00, 18.5 = 18:30).</li>
+                            <li>Each user can set their own schedule on their user form (Work schedule tab); if enabled, it overrides the global one.</li>
+                        </ul>
+                        <p><strong>Audit options:</strong></p>
+                        <ul>
+                            <li><strong>Log reads</strong> – If enabled, read operations are logged (can generate high volume).</li>
+                            <li><strong>Log mode</strong> – Full (before/after diff) or Fast (only submitted values).</li>
+                        </ul>
+                        <p><strong>Module access:</strong> List of users allowed to see the Control module. Administrators (System group) always have access. Saving syncs the access group.</p>
+                        <p><strong>Manual tab:</strong> Short help text about the module and column descriptions for “User Actions”.</p>
+                        <p><strong>Form footer:</strong> <strong>Delete ALL</strong> button – Opens the full purge wizard (see section 10).</p>
+
+                        <h2>9. User form (Work schedule)</h2>
+                        <p>Under <strong>Settings → Users → [User]</strong>, the <strong>Work schedule</strong> tab is added:</p>
+                        <ul>
+                            <li><strong>Use own work schedule</strong> – If enabled, this schedule replaces the global one for highlighting out-of-schedule actions in “User Activity”.</li>
+                            <li><strong>Work days</strong> – Same as in module Configuration (1–7, comma-separated).</li>
+                            <li><strong>Start time / End time</strong> – Same 24h decimal format.</li>
+                        </ul>
+
+                        <h2>10. Full purge wizard</h2>
+                        <p>Opened from <strong>Configuration → Delete ALL</strong>. Warning: deletes <strong>all</strong> non-protected actions. You must wait at least 5 seconds before clicking <strong>Confirm Full Delete</strong>. A protected event (purge_all) is logged and will not be deleted. After confirming, the wizard closes.</p>
+
+                        <h2>11. “View Actions” on other forms</h2>
+                        <p>On Invoice (account.move), Contact (res.partner), Product (product.product and product.template), Sales order (sale.order), Purchase order (purchase.order), and User (res.users) forms, the <strong>View Actions</strong> action appears (menu or button depending on setup). Clicking it opens the action list filtered by that model and <em>record_id</em> (current record).</p>
+
+                        <h2>12. PDF and Excel reports</h2>
+                        <p><strong>PDF reports:</strong> From <strong>Control → Statistics Report (PDF)</strong> a wizard opens with <strong>Period</strong> (Day/Week/Month) and <strong>Date</strong>. The buttons <em>PDF - Activity</em>, <em>PDF - Executive</em>, and <em>PDF - By User</em> generate the three reports. You can also use Print on that form. Each report shows the period, date range, total actions, and tables (by type, by user, by model, trend as per report).</p>
+                        <p><strong>Excel:</strong> From the <strong>Statistics</strong> dashboard, the <strong>Export Excel</strong> button downloads a file for the dashboard’s current period and date (by type, top users, top models, trend). Requires the Python package <code>xlsxwriter</code>.</p>
+
+                        <h2>13. Recorded action types</h2>
+                        <p>The module logs, among others: Create, Read (if enabled), Write, Delete, Validate, Post, Cancel, Draft, First Login of Day, Full Purge, Export, Import, Print, Email, Report, Button, Other.</p>
+
+                        <h2>14. Security groups</h2>
+                        <ul>
+                            <li><strong>Control / User</strong> – View actions, lines, dashboards, and reports; cannot change configuration or rules.</li>
+                            <li><strong>Control / Administrator</strong> – All of the above plus Rules and Configuration (including auto-delete and delete all).</li>
+                            <li>Users in the <em>System</em> group (admin) always have access to the module.</li>
+                        </ul>
+
+                        <p style="margin-top:2em;"><strong>End of manual (English)</strong></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_user_manual_es" model="ir.actions.report">
+        <field name="name">Manual de uso (Español)</field>
+        <field name="model">gesys_control.config</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gesys_control_users_v18.report_user_manual_es</field>
+        <field name="report_file">gesys_control_users_v18.report_user_manual_es</field>
+        <field name="print_report_name">'Control_Manual_ES'</field>
+    </record>
+
+    <record id="action_report_user_manual_en" model="ir.actions.report">
+        <field name="name">User Manual (English)</field>
+        <field name="model">gesys_control.config</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gesys_control_users_v18.report_user_manual_en</field>
+        <field name="report_file">gesys_control_users_v18.report_user_manual_en</field>
+        <field name="print_report_name">'Control_Manual_EN'</field>
+    </record>
+</odoo>

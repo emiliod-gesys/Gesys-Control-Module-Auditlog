@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de lista de acciones -->
+    <record id="view_user_action_tree" model="ir.ui.view">
+        <field name="name">gesys_control.user_action.tree</field>
+        <field name="model">gesys_control.user_action</field>
+        <field name="arch" type="xml">
+            <list string="User Actions" decoration-info="action_type == 'validate'" decoration-success="action_type == 'post'" decoration-danger="action_type == 'delete' or action_type == 'cancel'" decoration-warning="action_type == 'first_login_day'">
+                <field name="action_date" widget="datetime"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="action_type_display" widget="badge"
+                       decoration-success="action_type == 'create'"
+                       decoration-info="action_type == 'write'"
+                       decoration-danger="action_type in ('cancel', 'delete', 'unlink', 'action_cancel')"
+                       decoration-warning="action_type == 'first_login_day'"/>
+                <field name="model_description"/>
+                <field name="record_name"/>
+                <field name="record_name_simple"/>
+                <field name="action_description_display"/>
+                <field name="changed_fields" invisible="not changed_fields"/>
+                <field name="action_method" invisible="not action_method"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Vista de formulario de acciones -->
+    <record id="view_user_action_form" model="ir.ui.view">
+        <field name="name">gesys_control.user_action.form</field>
+        <field name="model">gesys_control.user_action</field>
+        <field name="arch" type="xml">
+            <form string="User Action" create="0" edit="0">
+                <header>
+                    <button name="action_view_record" type="object" string="View Record" 
+                            invisible="not record_id"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_record" type="object" 
+                                class="oe_stat_button" icon="fa-external-link"
+                                invisible="not record_id">
+                            <field name="record_name" widget="statinfo" string="Record"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="action_date" widget="datetime"/>
+                            <field name="action_type"/>
+                            <field name="action_type_display" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="model_name"/>
+                            <field name="model_description" readonly="1"/>
+                            <field name="record_id"/>
+                            <field name="record_name" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="action_description" nolabel="1" placeholder="Action description..."/>
+                        </page>
+                        <page string="Changes">
+                            <group>
+                                <field name="changed_fields" readonly="1"/>
+                                <field name="line_ids" readonly="1" nolabel="1" colspan="2" invisible="not line_ids">
+                                    <list create="0" delete="0" edit="0">
+                                        <field name="field_name"/>
+                                        <field name="old_value_text"/>
+                                        <field name="new_value_text"/>
+                                    </list>
+                                </field>
+                                <field name="old_values" readonly="1" invisible="line_ids"/>
+                                <field name="new_values" readonly="1" invisible="line_ids"/>
+                            </group>
+                        </page>
+                        <page string="Additional Information">
+                            <group>
+                                <field name="ip_address" readonly="1"/>
+                                <field name="http_request_path" readonly="1"/>
+                                <field name="http_session_id" readonly="1"/>
+                                <field name="action_date_only" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Vista de búsqueda de acciones -->
+    <record id="view_user_action_search" model="ir.ui.view">
+        <field name="name">gesys_control.user_action.search</field>
+        <field name="model">gesys_control.user_action</field>
+        <field name="arch" type="xml">
+            <search string="Search Actions">
+                <field name="search_text" string="Text (Description/Record)"/>
+                <field name="user_id" string="User"/>
+                <field name="model_name"/>
+                <field name="action_type"/>
+                <field name="action_method"/>
+                <field name="action_description"/>
+                <field name="record_name"/>
+                <field name="record_name_cached" string="Record Name (Saved)"/>
+                <field name="record_name_simple" string="Record Name (Simple)"/>
+                <field name="http_request_path" string="HTTP Path"/>
+                <filter string="Date" name="filter_date" date="action_date_only"/>
+                <filter string="Today" name="filter_today"
+                        domain="[('action_date', '>=', context_today()), ('action_date', '&lt;', (context_today() + relativedelta(days=1)))]"
+                        context="{'group_by': 'action_hour'}"/>
+                <filter string="This Week (Mon-Fri)" name="filter_weekday"
+                        domain="[
+                            ('action_date', '>=', context_today() - relativedelta(days=context_today().weekday())),
+                            ('action_date', '&lt;', (context_today() - relativedelta(days=context_today().weekday()) + relativedelta(days=7))),
+                            ('action_weekday', 'in', ['1','2','3','4','5'])
+                        ]"
+                        context="{'group_by': 'action_weekday'}"/>
+                <filter string="This Month" name="filter_this_month"
+                        domain="[('action_date', '>=', context_today().replace(day=1)), ('action_date', '&lt;', (context_today().replace(day=1) + relativedelta(months=1)))]"
+                        context="{'group_by': 'action_day_of_month'}"/>
+                <filter string="This Year" name="filter_this_year"
+                        domain="[('action_date', '>=', context_today().replace(month=1, day=1)), ('action_date', '&lt;', (context_today().replace(month=1, day=1) + relativedelta(years=1)))]"/>
+                <separator/>
+                <filter string="Creations" name="create" domain="[('action_type', '=', 'create')]"/>
+                <filter string="Updates" name="write" domain="[('action_type', '=', 'write')]"/>
+                <filter string="Validations" name="validate" domain="[('action_type', '=', 'validate')]"/>
+                <filter string="Deletions" name="delete" domain="[('action_type', 'in', ['delete', 'unlink'])]"/>
+                <separator/>
+                <filter string="My User" name="my_user" domain="[('user_id', '=', uid)]"/>
+                <separator string="Group By"/>
+                <group>
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Action Type" name="group_action_type" context="{'group_by': 'action_type'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'action_date_only'}"/>
+                    <filter string="By Hour" name="group_hour" context="{'group_by': 'action_hour'}"/>
+                    <filter string="By Weekday" name="group_weekday" context="{'group_by': 'action_weekday'}"/>
+                    <filter string="By Day of Month" name="group_day_month" context="{'group_by': 'action_day_of_month'}"/>
+                    <filter string="By Month" name="group_month" context="{'group_by': 'action_date:month'}"/>
+                    <filter string="By Year" name="group_year" context="{'group_by': 'action_date:year'}"/>
+                    <filter string="Model" name="group_model" context="{'group_by': 'model_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- Vista kanban de acciones -->
+    <record id="view_user_action_kanban" model="ir.ui.view">
+        <field name="name">gesys_control.user_action.kanban</field>
+        <field name="model">gesys_control.user_action</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="action_date_only" class="o_kanban_small_column">
+                <field name="action_date"/>
+                <field name="user_id"/>
+                <field name="action_type"/>
+                <field name="action_type_display"/>
+                <field name="model_description"/>
+                <field name="record_name"/>
+                <field name="action_description"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="action_type_display"/>
+                                        </strong>
+                                        <div class="o_kanban_record_subtitle">
+                                            <field name="model_description"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_top_right">
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="record_name"/>
+                                    <field name="action_description" nolabel="1"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <field name="action_date" widget="datetime"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Graph view: User activity -->
+    <record id="view_user_action_graph_activity" model="ir.ui.view">
+        <field name="name">gesys_control.user_action.graph.activity</field>
+        <field name="model">gesys_control.user_action</field>
+        <field name="arch" type="xml">
+            <graph string="User Activity" type="line">
+                <field name="id"/>
+            </graph>
+        </field>
+    </record>
+    
+    <!-- Action: all actions -->
+    <record id="action_user_action_all" model="ir.actions.act_window">
+        <field name="name">User Actions</field>
+        <field name="res_model">gesys_control.user_action</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_user_action_search"/>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No actions registered yet
+            </p>
+            <p>
+                User actions will be automatically logged when they perform operations in the system.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Action: actions by employee -->
+    <record id="action_user_action_by_employee" model="ir.actions.act_window">
+        <field name="name">Actions by Employee</field>
+        <field name="res_model">gesys_control.user_action</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_group_user': 1, 'create': False}</field>
+        <field name="search_view_id" ref="view_user_action_search"/>
+    </record>
+
+    <!-- Action: user activity -->
+    <record id="action_user_activity" model="ir.actions.act_window">
+        <field name="name">User Activity</field>
+        <field name="res_model">gesys_control.user_action</field>
+        <field name="view_mode">graph,list,form</field>
+        <field name="view_id" ref="view_user_action_graph_activity"/>
+        <field name="search_view_id" ref="view_user_action_search"/>
+        <field name="context">{'search_default_filter_today': 1, 'group_by': 'action_hour', 'create': False}</field>
+    </record>
+
+</odoo>

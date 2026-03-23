@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="gesys_control_statistics_dashboard">
+        <div class="o_gesys_statistics_dashboard" t-ref="dashboardRoot">
+            <div class="o_gesys_filters">
+                <div class="o_gesys_filter">
+                    <label class="form-label">Periodo</label>
+                    <select class="form-select" t-model="state.period" t-on-change="onPeriodChange">
+                        <option value="day">Día</option>
+                        <option value="week">Semana</option>
+                        <option value="month">Mes</option>
+                    </select>
+                </div>
+                <div class="o_gesys_filter">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" class="form-control" t-model="state.date" t-on-change="onDateChange"/>
+                </div>
+            </div>
+            <t t-if="state.loading">
+                <div class="o_gesys_empty">
+                    <t t-esc="emptyMessage"/>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="o_gesys_stats_row">
+                    <div class="o_gesys_stats_kpi" t-if="state.data.total >= 0">
+                        <span class="o_gesys_kpi_label">Total acciones:</span>
+                        <span class="o_gesys_kpi_value"><t t-esc="state.data.total"/></span>
+                    </div>
+                    <div class="o_gesys_reports">
+                        <button class="btn btn-secondary btn-sm" t-on-click="() => this.onReportClick()">
+                            Exportar Excel
+                        </button>
+                    </div>
+                </div>
+                <div class="o_gesys_dashboard_grid">
+                    <div class="o_gesys_card o_gesys_card_full">
+                        <div class="o_gesys_card_header">Tendencia</div>
+                        <div class="o_gesys_card_body">
+                            <canvas class="o_gesys_chart" t-ref="chartTrend"/>
+                        </div>
+                    </div>
+                    <div class="o_gesys_card">
+                        <div class="o_gesys_card_header">Por tipo de acción</div>
+                        <div class="o_gesys_card_body">
+                            <canvas class="o_gesys_chart" t-ref="chartByType"/>
+                        </div>
+                    </div>
+                    <div class="o_gesys_card">
+                        <div class="o_gesys_card_header">Top usuarios</div>
+                        <div class="o_gesys_card_body">
+                            <canvas class="o_gesys_chart" t-ref="chartByUser"/>
+                        </div>
+                    </div>
+                    <div class="o_gesys_card">
+                        <div class="o_gesys_card_header">Top modelos</div>
+                        <div class="o_gesys_card_body">
+                            <canvas class="o_gesys_chart" t-ref="chartByModel"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista formulario del asistente de reportes -->
+    <record id="view_statistics_report_wizard_form" model="ir.ui.view">
+        <field name="name">gesys_control.statistics_report_wizard.form</field>
+        <field name="model">gesys_control.statistics_report_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Statistics Report">
+                <sheet>
+                    <group>
+                        <field name="period"/>
+                        <field name="date_anchor"/>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        <p>Choose period and date. Then use <strong>Print</strong> and select one report: Activity Report, Executive Report, or Report by User.</p>
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_report_activity" string="PDF - Activity" type="object" class="btn-primary"/>
+                    <button name="action_report_executive" string="PDF - Executive" type="object" class="btn-secondary"/>
+                    <button name="action_report_by_user" string="PDF - By User" type="object" class="btn-secondary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_statistics_report_wizard" model="ir.actions.act_window">
+        <field name="name">Statistics Report</field>
+        <field name="res_model">gesys_control.statistics_report_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Reporte de Actividad - Resumen por período -->
+    <template id="report_activity_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Reporte de Actividad - Control de Usuarios</h2>
+                        <p>
+                            <strong>Período:</strong> <t t-esc="o.get_report_data()['period_label']"/> |
+                            <strong>Fecha:</strong> <t t-esc="o.get_report_data()['date_from']"/>
+                            <t t-if="o.get_report_data()['date_from'] != o.get_report_data()['date_to']">
+                                - <t t-esc="o.get_report_data()['date_to']"/>
+                            </t>
+                        </p>
+                        <p><strong>Total de acciones:</strong> <t t-esc="o.get_report_data()['total']"/></p>
+
+                        <h3>Por tipo de acción</h3>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr><th>Tipo</th><th>Cantidad</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.get_report_data()['by_type']" t-as="row">
+                                    <tr><td t-esc="row['label']"/><td t-esc="row['count']"/></tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <h3>Top usuarios</h3>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr><th>Usuario</th><th>Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.get_report_data()['by_user']" t-as="row">
+                                    <tr><td t-esc="row['label']"/><td t-esc="row['count']"/></tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <h3>Top modelos</h3>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr><th>Modelo</th><th>Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.get_report_data()['by_model']" t-as="row">
+                                    <tr><td t-esc="row['label']"/><td t-esc="row['count']"/></tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Reporte Ejecutivo - Resumen compacto -->
+    <template id="report_executive_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Reporte Ejecutivo - Control de Usuarios</h2>
+                        <p>
+                            <strong>Período:</strong> <t t-esc="o.get_report_data()['period_label']"/> |
+                            <strong>Fecha:</strong> <t t-esc="o.get_report_data()['date_from']"/>
+                            <t t-if="o.get_report_data()['date_from'] != o.get_report_data()['date_to']">
+                                - <t t-esc="o.get_report_data()['date_to']"/>
+                            </t>
+                        </p>
+                        <div style="font-size: 1.5em; margin: 20px 0;">
+                            <strong>Total acciones:</strong> <t t-esc="o.get_report_data()['total']"/>
+                        </div>
+
+                        <h3>Resumen por tipo</h3>
+                        <table class="table table-sm">
+                            <t t-foreach="o.get_report_data()['by_type']" t-as="row">
+                                <tr><td t-esc="row['label']"/><td t-esc="row['count']"/></tr>
+                            </t>
+                        </table>
+
+                        <h3>Tendencia</h3>
+                        <table class="table table-sm">
+                            <thead><tr><th>Bucket</th><th>Cantidad</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="o.get_report_data()['trend']" t-as="row">
+                                    <tr><td t-esc="row['label']"/><td t-esc="row['count']"/></tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Reporte por Usuario - Detalle por usuario -->
+    <template id="report_by_user">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Actividad por Usuario - Control</h2>
+                        <p>
+                            <strong>Período:</strong> <t t-esc="o.get_report_data()['period_label']"/> |
+                            <strong>Fecha:</strong> <t t-esc="o.get_report_data()['date_from']"/>
+                            <t t-if="o.get_report_data()['date_from'] != o.get_report_data()['date_to']">
+                                - <t t-esc="o.get_report_data()['date_to']"/>
+                            </t>
+                        </p>
+                        <p><strong>Total acciones:</strong> <t t-esc="o.get_report_data()['total']"/></p>
+
+                        <h3>Actividad por usuario (Top 15)</h3>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr><th>#</th><th>Usuario</th><th>Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.get_report_data()['by_user']" t-as="row" t-index="idx">
+                                    <tr>
+                                        <td t-esc="idx + 1"/>
+                                        <td t-esc="row['label']"/>
+                                        <td t-esc="row['count']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_activity_summary" model="ir.actions.report">
+        <field name="name">Reporte de Actividad</field>
+        <field name="model">gesys_control.statistics_report_wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gesys_control_users_v19.report_activity_summary</field>
+        <field name="report_file">gesys_control_users_v19.report_activity_summary</field>
+        <field name="print_report_name">'Control_Actividad_%s' % (object.date_anchor)</field>
+    </record>
+
+    <record id="action_report_executive_summary" model="ir.actions.report">
+        <field name="name">Reporte Ejecutivo</field>
+        <field name="model">gesys_control.statistics_report_wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gesys_control_users_v19.report_executive_summary</field>
+        <field name="report_file">gesys_control_users_v19.report_executive_summary</field>
+        <field name="print_report_name">'Control_Ejecutivo_%s' % (object.date_anchor)</field>
+    </record>
+
+    <record id="action_report_by_user" model="ir.actions.report">
+        <field name="name">Reporte por Usuario</field>
+        <field name="model">gesys_control.statistics_report_wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gesys_control_users_v19.report_by_user</field>
+        <field name="report_file">gesys_control_users_v19.report_by_user</field>
+        <field name="print_report_name">'Control_PorUsuario_%s' % (object.date_anchor)</field>
+    </record>
+</odoo>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Control – User Activity Audit | Odoo App</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 820px; margin: 0 auto; padding: 24px; }
+        h1 { color: #875a7b; border-bottom: 2px solid #875a7b; padding-bottom: 10px; font-size: 1.75em; }
+        h2 { color: #875a7b; margin-top: 28px; font-size: 1.25em; }
+        ul, ol { padding-left: 22px; margin: 0.5em 0; }
+        li { margin: 0.35em 0; }
+        .summary { background: #f4f0f4; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #875a7b; }
+        .section { margin: 24px 0; }
+        code { background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.95em; }
+        table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
+        th { background: #f9f9f9; color: #555; }
+        .screenshots { margin: 24px 0; }
+        .screenshots img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; margin: 8px 0; display: block; }
+        .screenshots h2 { margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Control – User Activity Audit</h1>
+
+    <div class="summary">
+        <strong>Control</strong> is an audit and compliance app that records and monitors key user actions across your Odoo database. Get a clear trail of validations, postings, cancellations, exports and changes, with dashboards, statistics and PDF/Excel reports. Ideal for accountability, support and internal controls.
+    </div>
+
+    <h2>Screenshots</h2>
+    <div class="screenshots">
+        <p><img src="images/main_screenshot.png" alt="Control – Main screenshot (cover)"/></p>
+        <p><img src="images/main_screenshot.gif" alt="Control – Vista previa animada"/></p>
+        <p><img src="images/user_actions_1.png" alt="User Actions"/></p>
+        <p><img src="images/user_actions_2.png" alt="User Actions – Form"/></p>
+        <p><img src="images/actions_by_employee_1.png" alt="Actions by Employee"/></p>
+        <p><img src="images/change_lines_1.png" alt="Change Lines"/></p>
+        <p><img src="images/user_activity_1.png" alt="User Activity dashboard"/></p>
+        <p><img src="images/statistics_1.png" alt="Statistics dashboard"/></p>
+        <p><img src="images/rules_1.png" alt="Rules"/></p>
+        <p><img src="images/configuration_1.png" alt="Configuration"/></p>
+    </div>
+
+    <h2>What it does</h2>
+    <p>
+        The module logs important operations (create, write, validate, post, cancel, delete, export, print, email, import) on the models you use. Each action stores user, date, model, record, type and optional field-level changes. You can browse everything in lists and forms, group by employee or date, and analyse activity with two built-in dashboards and printable reports.
+    </p>
+
+    <h2>Main sections (menus)</h2>
+    <ul>
+        <li><strong>User Actions</strong> – Full list of recorded actions with filters by date, user, type and model. List, form and kanban views; form shows description, change lines and extra data (IP, session).</li>
+        <li><strong>Actions by Employee</strong> – Same data grouped by user for a quick per-user overview.</li>
+        <li><strong>Change Lines</strong> – Field-level log: field name, old value and new value for each write, so you can see exactly what changed.</li>
+        <li><strong>User Activity</strong> – Dashboard with recent activity and charts (e.g. by hour or day) to see usage at a glance.</li>
+        <li><strong>Statistics</strong> – Second dashboard with aggregates and trends. Use it to analyse volume by period, type or model.</li>
+        <li><strong>Rules</strong> – Per-model rules to exclude specific users or fields from tracking (Manager only).</li>
+        <li><strong>Configuration</strong> – Timezone, UI language (English/Spanish), retention, automatic purge, optional read logging, log mode and manual PDF manuals (Manager only).</li>
+    </ul>
+
+    <h2>Reports</h2>
+    <ul>
+        <li><strong>PDF</strong> – Activity report, Executive report and Report by User, from the Statistics Report wizard.</li>
+        <li><strong>Excel</strong> – Export of statistics for further analysis.</li>
+    </ul>
+
+    <h2>Security</h2>
+    <p>
+        Two groups control access:
+    </p>
+    <table>
+        <tr><th>Group</th><th>Access</th></tr>
+        <tr><td><strong>Control / User</strong></td><td>View user actions, change lines, activity and statistics dashboards (read-only).</td></tr>
+        <tr><td><strong>Control / Administrator</strong></td><td>Same as User, plus Rules and Configuration (settings, purge, manuals).</td></tr>
+    </table>
+
+    <h2>Requirements</h2>
+    <ul>
+        <li>Odoo 18.0</li>
+        <li>Dependencies: <code>base</code>, <code>mail</code>, <code>account</code>, <code>web</code>, <code>sale</code>, <code>purchase</code></li>
+        <li>Python: <code>xlsxwriter</code> (for Excel export)</li>
+    </ul>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Install the app from the Odoo Apps menu (or add the module to your addons path and update the app list).</li>
+        <li>Assign users to <strong>Control / User</strong> or <strong>Control / Administrator</strong> as needed.</li>
+        <li>Optionally configure timezone, retention and rules via <strong>Control → Configuration</strong> (Administrator only).</li>
+    </ol>
+
+    <h2>License</h2>
+    <p>LGPL-3.</p>
+</body>
+</html>

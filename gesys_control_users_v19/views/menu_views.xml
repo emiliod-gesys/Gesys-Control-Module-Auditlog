@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu: Control -->
+    <menuitem id="menu_control_root"
+              name="Control"
+              sequence="100"
+              web_icon="gesys_control_users_v19,static/description/icon.png"
+              groups="gesys_control_users_v19.group_gesys_control_user,base.group_system"/>
+    
+    <!-- Menu: User Actions -->
+    <menuitem id="menu_control_user_actions"
+              name="User Actions"
+              parent="menu_control_root"
+              action="action_user_action_all"
+              sequence="10"
+              groups="gesys_control_users_v19.group_gesys_control_user,base.group_system"/>
+    
+    <!-- Menu: Actions by Employee -->
+    <menuitem id="menu_control_by_employee"
+              name="Actions by Employee"
+              parent="menu_control_root"
+              action="action_user_action_by_employee"
+              sequence="20"
+              groups="gesys_control_users_v19.group_gesys_control_user,base.group_system"/>
+
+    <!-- Menu: Change Lines -->
+    <menuitem id="menu_control_log_lines"
+              name="Change Lines"
+              parent="menu_control_root"
+              action="action_user_action_line"
+              sequence="25"
+              groups="gesys_control_users_v19.group_gesys_control_user,base.group_system"/>
+
+    <!-- Menu: User Activity -->
+    <menuitem id="menu_control_user_activity"
+              name="User Activity"
+              parent="menu_control_root"
+              action="action_user_activity_dashboard"
+              sequence="30"
+              groups="gesys_control_users_v19.group_gesys_control_user,base.group_system"/>
+
+    <!-- Menu: Statistics -->
+    <menuitem id="menu_control_statistics"
+              name="Statistics"
+              parent="menu_control_root"
+              action="action_statistics_dashboard"
+              sequence="35"
+              groups="gesys_control_users_v19.group_gesys_control_user,base.group_system"/>
+    
+    <!-- Menu: Rules -->
+    <menuitem id="menu_control_rules"
+              name="Rules"
+              parent="menu_control_root"
+              action="action_user_action_rule"
+              sequence="85"
+              groups="gesys_control_users_v19.group_gesys_control_manager,base.group_system"/>
+
+    <!-- Menu: Configuration -->
+    <menuitem id="menu_control_config"
+              name="Configuration"
+              parent="menu_control_root"
+              action="action_user_action_config_server"
+              sequence="90"
+              groups="gesys_control_users_v19.group_gesys_control_manager,base.group_system"/>
+
+</odoo>

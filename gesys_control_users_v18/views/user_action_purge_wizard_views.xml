@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purge_actions_wizard_form" model="ir.ui.view">
+        <field name="name">gesys_control.purge_actions_wizard.form</field>
+        <field name="model">gesys_control.purge_actions_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Delete All Actions">
+                <sheet>
+                    <div class="alert alert-danger" role="alert">
+                        <p><strong>Warning:</strong> This action deletes ALL existing action records.</p>
+                        <p>You must wait at least 5 seconds before confirming.</p>
+                        <p>A protected event is logged and cannot be removed.</p>
+                    </div>
+                    <field name="config_id" invisible="1"/>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_purge" string="Confirm Delete All" type="object" class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
