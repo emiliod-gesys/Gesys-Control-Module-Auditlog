@@ -396,16 +396,18 @@ class UserAction(models.Model):
             'http_request_path': http_request_path or self.env.context.get('http_request_path'),
             'http_session_id': http_session_id or self.env.context.get('http_session_id'),
         }
-        rec = self.with_context(gesys_control_allow_create=True).create(vals)
-        if line_vals and rec:
-            try:
-                if 'gesys_control.user_action_line' in self.env:
-                    self.env['gesys_control.user_action_line'].sudo().create([
-                        dict(v, user_action_id=rec.id) for v in line_vals
-                    ])
-            except Exception:
-                pass
-        return rec
+        try:
+            with self.env.cr.savepoint():
+                rec = self.with_context(gesys_control_allow_create=True).create(vals)
+                if line_vals and rec:
+                    if 'gesys_control.user_action_line' in self.env:
+                        self.env['gesys_control.user_action_line'].sudo().create([
+                            dict(v, user_action_id=rec.id) for v in line_vals
+                        ])
+                return rec
+        except Exception as e:
+            _logger.debug("Error al crear registro de auditoria: %s", e)
+            return self.env['gesys_control.user_action']
 
     def unlink(self):
         """Evitar borrar acciones protegidas o de Borrado Total."""

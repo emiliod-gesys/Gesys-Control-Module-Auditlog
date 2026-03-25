@@ -29,14 +29,18 @@ def _log_action(env, action_type, model_name, record_id, description):
     if not user_id:
         return
     ip_address = env.context.get('ip_address')
-    env['gesys_control.user_action'].sudo().log_action(
-        action_type=action_type,
-        model_name=model_name,
-        record_id=record_id,
-        description=description,
-        user_id=user_id,
-        ip_address=ip_address,
-    )
+    try:
+        with env.cr.savepoint():
+            env['gesys_control.user_action'].sudo().log_action(
+                action_type=action_type,
+                model_name=model_name,
+                record_id=record_id,
+                description=description,
+                user_id=user_id,
+                ip_address=ip_address,
+            )
+    except Exception as e:
+        _logger.debug("Error al registrar accion %s en %s: %s", action_type, model_name, e)
 
 
 class ActionTrackerMixin(models.AbstractModel):

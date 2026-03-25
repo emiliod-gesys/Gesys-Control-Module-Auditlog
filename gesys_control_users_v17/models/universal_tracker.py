@@ -150,19 +150,20 @@ def _track_action_universal(self, action_type, description=None, action_method=N
         http_ctx = _get_http_context(self.env)
 
         if record_id:
-            self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
-                action_type=action_type,
-                model_name=self._name,
-                record_id=record_id,
-                description=description,
-                user_id=user_id,
-                ip_address=ip_address,
-                action_method=action_method,
-                changed_fields=changed_fields,
-                old_values=old_values,
-                new_values=new_values,
-                line_vals=line_vals,
-            )
+            with self.env.cr.savepoint():
+                self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
+                    action_type=action_type,
+                    model_name=self._name,
+                    record_id=record_id,
+                    description=description,
+                    user_id=user_id,
+                    ip_address=ip_address,
+                    action_method=action_method,
+                    changed_fields=changed_fields,
+                    old_values=old_values,
+                    new_values=new_values,
+                    line_vals=line_vals,
+                )
     except Exception as e:
         # No queremos que el rastreo rompa las operaciones normales
         _logger.debug(f"Error al rastrear acci?n universal en {getattr(self, '_name', 'unknown')}: {e}")
@@ -176,14 +177,15 @@ def _patched_create(self, vals_list):
         return _original_create(self, vals_list)
 
     records = _original_create(self, vals_list)
-    
+
     # Rastrear creaci?n para cada registro creado
     for record in records:
         try:
-            _track_action_universal(record, 'create')
+            with record.env.cr.savepoint():
+                _track_action_universal(record, 'create')
         except Exception:
             pass  # Ignorar errores de tracking
-    
+
     return records
 
 
@@ -282,15 +284,16 @@ def _patched_write(self, vals):
                      'new_value_text': str(d.get('new') or '')}
                     for f, d in changes.items()
                 ]
-                _track_action_universal(
-                    record,
-                    'write',
-                    description=description,
-                    changed_fields=changed_fields,
-                    old_values=json.dumps({k: v['old'] for k, v in changes.items()}, default=str),
-                    new_values=json.dumps({k: v['new'] for k, v in changes.items()}, default=str),
-                    line_vals=line_vals,
-                )
+                with record.env.cr.savepoint():
+                    _track_action_universal(
+                        record,
+                        'write',
+                        description=description,
+                        changed_fields=changed_fields,
+                        old_values=json.dumps({k: v['old'] for k, v in changes.items()}, default=str),
+                        new_values=json.dumps({k: v['new'] for k, v in changes.items()}, default=str),
+                        line_vals=line_vals,
+                    )
             except Exception:
                 pass
 
@@ -352,13 +355,17 @@ def _patched_read(self, fields=None, load='_classic_read'):
             except Exception:
                 desc += f" (ID: {rec.id})"
             http_ctx = _get_http_context(self.env)
-            self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
-                action_type='read',
-                model_name=self._name,
-                record_id=rec.id,
-                description=desc,
-                user_id=user_id,
-            )
+            try:
+                with self.env.cr.savepoint():
+                    self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
+                        action_type='read',
+                        model_name=self._name,
+                        record_id=rec.id,
+                        description=desc,
+                        user_id=user_id,
+                    )
+            except Exception:
+                pass
     except Exception as e:
         _logger.debug(f"Error al rastrear read en {getattr(self, '_name', '?')}: {e}")
     return result
@@ -369,10 +376,11 @@ def _patched_unlink(self):
     # Rastrear eliminaci?n ANTES de eliminar (para tener el ID)
     for record in self:
         try:
-            _track_action_universal(record, 'delete')
+            with record.env.cr.savepoint():
+                _track_action_universal(record, 'delete')
         except Exception:
             pass  # Ignorar errores de tracking
-    
+
     return _original_unlink(self)
 
 
