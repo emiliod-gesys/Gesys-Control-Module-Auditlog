@@ -32,6 +32,20 @@ def _get_tracking_user_id(env):
     return env.user.id
 
 
+# Modelos contables criticos: el parche ORM NO aplica ninguna logica de tracking.
+# En estos modelos Odoo realiza escrituras encadenadas en la misma transaccion
+# (lineas dinamicas, conciliacion, pagos) donde leer valores viejos o ejecutar
+# logica extra puede alterar el orden de flush y causar errores de constraint.
+_ORM_TRACKING_SKIP_MODELS = frozenset({
+    'res.users.log',                 # login / race con registry
+    'account.move',                  # reversos, copy, lineas dinamicas
+    'account.move.line',             # _sync_dynamic_lines, notas de credito
+    'account.bank.statement.line',   # extractos / POS / cierre de caja
+    'account.partial.reconcile',     # conciliacion
+    'account.full.reconcile',        # conciliacion
+    'account.payment',               # pagos y efectos en asientos
+})
+
 # Interceptar las operaciones base del ORM para TODOS los modelos
 # Model es la clase base que todos los modelos de Odoo heredan
 Model = models.Model  # Acceder a través del módulo models
@@ -63,10 +77,10 @@ def _serialize_value(record, field_name):
 def _track_action_universal(self, action_type, description=None, action_method=None,
                             changed_fields=None, old_values=None, new_values=None, line_vals=None):
     """
-    M?todo helper universal para registrar una acci?n en cualquier modelo
+    Metodo helper universal para registrar una accion en cualquier modelo
     """
     try:
-        # Verificar si el m?dulo est? instalado
+        # Verificar si el modulo esta instalado
         if 'gesys_control.user_action' not in self.env:
             return
         if self.env.context.get('gesys_control_skip_tracking'):
@@ -80,11 +94,11 @@ def _track_action_universal(self, action_type, description=None, action_method=N
         if self._name.startswith('gesys_control.'):
             return
         
-        # Excluir modelos que empiezan con "bus" (sistema de mensajería/navegación)
+        # Excluir modelos que empiezan con "bus" (sistema de mensajeria/navegacion)
         if self._name.startswith('bus.'):
             return
         
-        # Excluir modelos del sistema que no son ?tiles rastrear
+        # Excluir modelos del sistema que no son utiles rastrear
         excluded_models = [
             'ir.model', 'ir.model.fields', 'ir.model.data', 'ir.model.access',
             'ir.ui.view', 'ir.actions.act_window', 'ir.actions.server',
@@ -95,8 +109,8 @@ def _track_action_universal(self, action_type, description=None, action_method=N
             'res.lang', 'ir.translation', 'res.currency', 'res.currency.rate',
             'ir.module.module', 'ir.module.module.dependency',
             'base.automation', 'base.automation.trigger',
-            'bus.presence',  # User Presence - solo navegación, genera mucho volumen
-            'account.move.line',  # Evitar ruido por líneas contables
+            'bus.presence',  # User Presence - solo navegacion, genera mucho volumen
+            'account.move.line',  # Evitar ruido por lineas contables
             'stock.move', 'stock.move.line', 'stock.picking', 'stock.quant', 'stock.valuation.layer',
             'pos.order', 'pos.order.line', 'pos.payment',
             'pos_preparation_display.order', 'pos_preparation_display.orderline',
@@ -120,13 +134,13 @@ def _track_action_universal(self, action_type, description=None, action_method=N
         # Resolver ID del registro antes de construir la descripcion
         record_id = self.id if hasattr(self, 'id') and isinstance(self.id, int) else False
 
-        # Generar descripci?n si no se proporciona
+        # Generar descripcion si no se proporciona
         if not description:
             model_name = self._name
             model_description = getattr(self, '_description', None) or model_name
             record_name = getattr(self, 'display_name', None)
             
-            # Excluir modelos cuya descripción sea "User Presence"
+            # Excluir modelos cuya descripcion sea "User Presence"
             if model_description and 'User Presence' in str(model_description):
                 return
             
@@ -150,50 +164,50 @@ def _track_action_universal(self, action_type, description=None, action_method=N
         http_ctx = _get_http_context(self.env)
 
         if record_id:
-            self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
-                action_type=action_type,
-                model_name=self._name,
-                record_id=record_id,
-                description=description,
-                user_id=user_id,
-                ip_address=ip_address,
-                action_method=action_method,
-                changed_fields=changed_fields,
-                old_values=old_values,
-                new_values=new_values,
-                line_vals=line_vals,
-            )
+            with self.env.cr.savepoint():
+                self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
+                    action_type=action_type,
+                    model_name=self._name,
+                    record_id=record_id,
+                    description=description,
+                    user_id=user_id,
+                    ip_address=ip_address,
+                    action_method=action_method,
+                    changed_fields=changed_fields,
+                    old_values=old_values,
+                    new_values=new_values,
+                    line_vals=line_vals,
+                )
     except Exception as e:
         # No queremos que el rastreo rompa las operaciones normales
-        _logger.debug(f"Error al rastrear acci?n universal en {getattr(self, '_name', 'unknown')}: {e}")
+        _logger.debug(f"Error al rastrear accion universal en {getattr(self, '_name', 'unknown')}: {e}")
 
 
 @api.model_create_multi
 def _patched_create(self, vals_list):
-    """Versi?n parcheada de create que agrega tracking universal"""
-    # Saltar para res.users.log - evita race con registry durante login
-    if self._name == 'res.users.log':
+    """Version parcheada de create que agrega tracking universal"""
+    if self._name in _ORM_TRACKING_SKIP_MODELS:
         return _original_create(self, vals_list)
 
     records = _original_create(self, vals_list)
-    
-    # Rastrear creaci?n para cada registro creado
+
+    # Rastrear creacion para cada registro creado
     for record in records:
         try:
-            _track_action_universal(record, 'create')
+            with record.env.cr.savepoint():
+                _track_action_universal(record, 'create')
         except Exception:
             pass  # Ignorar errores de tracking
-    
+
     return records
 
 
 def _patched_write(self, vals):
-    """Versi?n parcheada de write que agrega tracking universal"""
+    """Version parcheada de write que agrega tracking universal"""
     if not vals:
         return _original_write(self, vals)
 
-    # Saltar tracking para account.move - evita InFailedSqlTransaction al registrar pagos
-    if self._name == 'account.move':
+    if self._name in _ORM_TRACKING_SKIP_MODELS:
         return _original_write(self, vals)
 
     ignored_fields = {
@@ -282,15 +296,16 @@ def _patched_write(self, vals):
                      'new_value_text': str(d.get('new') or '')}
                     for f, d in changes.items()
                 ]
-                _track_action_universal(
-                    record,
-                    'write',
-                    description=description,
-                    changed_fields=changed_fields,
-                    old_values=json.dumps({k: v['old'] for k, v in changes.items()}, default=str),
-                    new_values=json.dumps({k: v['new'] for k, v in changes.items()}, default=str),
-                    line_vals=line_vals,
-                )
+                with record.env.cr.savepoint():
+                    _track_action_universal(
+                        record,
+                        'write',
+                        description=description,
+                        changed_fields=changed_fields,
+                        old_values=json.dumps({k: v['old'] for k, v in changes.items()}, default=str),
+                        new_values=json.dumps({k: v['new'] for k, v in changes.items()}, default=str),
+                        line_vals=line_vals,
+                    )
             except Exception:
                 pass
 
@@ -325,8 +340,9 @@ def _patched_read(self, fields=None, load='_classic_read'):
             'ir.model', 'ir.model.fields', 'ir.model.data', 'ir.model.access',
             'ir.ui.view', 'ir.actions.act_window', 'mail.message', 'bus.presence',
             'res.lang', 'ir.translation', 'res.currency', 'res.currency.rate',
+            'account.move', 'account.move.line',  # evitar carga en transacciones contables
         }
-        if self._name in excluded:
+        if self._name in excluded or self._name in _ORM_TRACKING_SKIP_MODELS:
             return result
         if len(self) > 10:
             return result
@@ -352,27 +368,33 @@ def _patched_read(self, fields=None, load='_classic_read'):
             except Exception:
                 desc += f" (ID: {rec.id})"
             http_ctx = _get_http_context(self.env)
-            self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
-                action_type='read',
-                model_name=self._name,
-                record_id=rec.id,
-                description=desc,
-                user_id=user_id,
-            )
+            try:
+                with self.env.cr.savepoint():
+                    self.env['gesys_control.user_action'].sudo().with_context(**http_ctx).log_action(
+                        action_type='read',
+                        model_name=self._name,
+                        record_id=rec.id,
+                        description=desc,
+                        user_id=user_id,
+                    )
+            except Exception:
+                pass
     except Exception as e:
         _logger.debug(f"Error al rastrear read en {getattr(self, '_name', '?')}: {e}")
     return result
 
 
 def _patched_unlink(self):
-    """Versi?n parcheada de unlink que agrega tracking universal"""
-    # Rastrear eliminaci?n ANTES de eliminar (para tener el ID)
-    for record in self:
-        try:
-            _track_action_universal(record, 'delete')
-        except Exception:
-            pass  # Ignorar errores de tracking
-    
+    """Version parcheada de unlink que agrega tracking universal"""
+    if self._name not in _ORM_TRACKING_SKIP_MODELS:
+        # Rastrear eliminacion ANTES de eliminar (para tener el ID)
+        for record in self:
+            try:
+                with record.env.cr.savepoint():
+                    _track_action_universal(record, 'delete')
+            except Exception:
+                pass  # Ignorar errores de tracking
+
     return _original_unlink(self)
 
 
@@ -437,7 +459,7 @@ def _patched_export_data(self, fields_to_export, *args, **kwargs):
 
 
 # Aplicar parches a nivel del ORM base - esto intercepta TODOS los modelos
-# Solo se aplica si el m?dulo est? instalado
+# Solo se aplica si el modulo esta instalado
 try:
     Model.create = _patched_create
     Model.write = _patched_write
