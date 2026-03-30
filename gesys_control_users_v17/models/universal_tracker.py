@@ -32,6 +32,20 @@ def _get_tracking_user_id(env):
     return env.user.id
 
 
+# Modelos contables criticos: el parche ORM NO aplica ninguna logica de tracking.
+# En estos modelos Odoo realiza escrituras encadenadas en la misma transaccion
+# (lineas dinamicas, conciliacion, pagos) donde leer valores viejos o ejecutar
+# logica extra puede alterar el orden de flush y causar errores de constraint.
+_ORM_TRACKING_SKIP_MODELS = frozenset({
+    'res.users.log',                 # login / race con registry
+    'account.move',                  # reversos, copy, lineas dinamicas
+    'account.move.line',             # _sync_dynamic_lines, notas de credito
+    'account.bank.statement.line',   # extractos / POS / cierre de caja
+    'account.partial.reconcile',     # conciliacion
+    'account.full.reconcile',        # conciliacion
+    'account.payment',               # pagos y efectos en asientos
+})
+
 # Interceptar las operaciones base del ORM para TODOS los modelos
 # Model es la clase base que todos los modelos de Odoo heredan
 Model = models.Model  # Acceder a través del módulo models
@@ -172,8 +186,7 @@ def _track_action_universal(self, action_type, description=None, action_method=N
 @api.model_create_multi
 def _patched_create(self, vals_list):
     """Versi?n parcheada de create que agrega tracking universal"""
-    # Saltar para res.users.log - evita race con registry durante login
-    if self._name == 'res.users.log':
+    if self._name in _ORM_TRACKING_SKIP_MODELS:
         return _original_create(self, vals_list)
 
     records = _original_create(self, vals_list)
@@ -194,8 +207,7 @@ def _patched_write(self, vals):
     if not vals:
         return _original_write(self, vals)
 
-    # Saltar tracking para account.move - evita InFailedSqlTransaction al registrar pagos
-    if self._name == 'account.move':
+    if self._name in _ORM_TRACKING_SKIP_MODELS:
         return _original_write(self, vals)
 
     ignored_fields = {
@@ -328,8 +340,9 @@ def _patched_read(self, fields=None, load='_classic_read'):
             'ir.model', 'ir.model.fields', 'ir.model.data', 'ir.model.access',
             'ir.ui.view', 'ir.actions.act_window', 'mail.message', 'bus.presence',
             'res.lang', 'ir.translation', 'res.currency', 'res.currency.rate',
+            'account.move', 'account.move.line',  # evitar carga en transacciones contables
         }
-        if self._name in excluded:
+        if self._name in excluded or self._name in _ORM_TRACKING_SKIP_MODELS:
             return result
         if len(self) > 10:
             return result
@@ -373,13 +386,14 @@ def _patched_read(self, fields=None, load='_classic_read'):
 
 def _patched_unlink(self):
     """Versi?n parcheada de unlink que agrega tracking universal"""
-    # Rastrear eliminaci?n ANTES de eliminar (para tener el ID)
-    for record in self:
-        try:
-            with record.env.cr.savepoint():
-                _track_action_universal(record, 'delete')
-        except Exception:
-            pass  # Ignorar errores de tracking
+    if self._name not in _ORM_TRACKING_SKIP_MODELS:
+        # Rastrear eliminaci?n ANTES de eliminar (para tener el ID)
+        for record in self:
+            try:
+                with record.env.cr.savepoint():
+                    _track_action_universal(record, 'delete')
+            except Exception:
+                pass  # Ignorar errores de tracking
 
     return _original_unlink(self)
 
